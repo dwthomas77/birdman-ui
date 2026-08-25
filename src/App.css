@@ -1,0 +1,11 @@
+
+/* app.css */
+@import "tailwindcss";
+
+:root {
+  --bg-color: lightblue;
+}
+
+.box {
+  background-color: var(--bg-color);
+}
