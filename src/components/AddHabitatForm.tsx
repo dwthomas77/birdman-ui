@@ -1,5 +1,5 @@
 import { TextInput, Button } from "./atomic";
-import type { Habitat } from "../types";
+import type { Habitat, HabitatRequest } from "../types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postHabitat } from "../services";
 import { Form } from "./controllers/FormController";
@@ -7,24 +7,22 @@ import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "../classes";
 import { useToast } from "./ToastProvider";
 
-const defaultFormValues: Habitat = {
-  habitatId: "",
+const defaultFormValues: HabitatRequest = {
   habitatName: "",
   habitatDescription: "",
 };
-
 export interface AddHabitatFormProps {
   onSuccess?: () => void;
 }
 
 export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
   const { addToast } = useToast();
-  const addHabitatMutation = useMutation<Habitat, Error, Habitat>({
+  const addHabitatMutation = useMutation<Habitat, Error, HabitatRequest>({
     mutationFn: postHabitat,
   });
   const queryClient = useQueryClient();
 
-  const handleSubmit = async (values: Habitat, formApi: FormApi<Habitat>) => {
+  const handleSubmit = async (values: HabitatRequest, formApi: FormApi<HabitatRequest>) => {
     try {
       const newHabitat = await addHabitatMutation.mutateAsync({
         ...values,
@@ -58,7 +56,7 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
           ADD HABITAT
         </h2>
         <div className="flex flex-col gap-1">
-          <Form<Habitat>
+          <Form<HabitatRequest>
             initialValues={defaultFormValues}
             onSubmit={handleSubmit}
           >
@@ -73,22 +71,12 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
                     </div>
                   )}
                   <TextInput
-                    inputId="habitatId"
-                    label="Habitat ID"
-                    required={true}
-                    value={values.habitatId}
-                    onChangeHandler={(e) =>
-                      setValue("habitatId", e.target.value)
-                    }
-                    errorMessage={errors.habitatId || undefined}
-                  />
-                  <TextInput
                     inputId="habitatName"
                     label="Habitat Name"
                     required={true}
                     value={values.habitatName}
-                    onChangeHandler={(e) =>
-                      setValue("habitatName", e.target.value)
+                    onChangeHandler={(value) =>
+                      setValue("habitatName", value)
                     }
                     errorMessage={errors.habitatName || undefined}
                   />
@@ -97,8 +85,8 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
                     label="Habitat Description"
                     required={true}
                     value={values.habitatDescription}
-                    onChangeHandler={(e) =>
-                      setValue("habitatDescription", e.target.value)
+                    onChangeHandler={(value) =>
+                      setValue("habitatDescription", value)
                     }
                     errorMessage={errors.habitatDescription || undefined}
                   />

@@ -2,13 +2,13 @@ import type { ProblemDetailsResponse } from "../types";
 import { ApiError } from "../classes";
 
 // Async function to make a DELETE request
-async function deleteHabitat(habitatId: string): Promise<string> {
-    const response = await fetch(`http://localhost:3000/habitats/${habitatId}`, {
+async function deleteSpecies(speciesId: string): Promise<string> {
+    const response = await fetch(`http://localhost:3000/species/${speciesId}`, {
       method: "DELETE",
     });
     
     if (response.status >= 200 && response.status < 300) {
-        return "Successfully deleted habitat with id: " + habitatId;
+        return "Successfully deleted species with id: " + speciesId;
     }
     const problem: ProblemDetailsResponse = await response.json();
     console.log('throwing this error')
@@ -16,4 +16,4 @@ async function deleteHabitat(habitatId: string): Promise<string> {
     throw new ApiError(problem);
 }
 
-export default deleteHabitat;
+export default deleteSpecies;

@@ -1,23 +1,23 @@
 import Modal from "react-modal";
 import AddHabitatForm from "./AddHabitatForm";
 import AddUpdateHabitatForm from "./AddUpdateHabitatForm";
+import AddSpeciesForm from "./AddSpeciesForm";
 import type { ModalOptions } from "../types";
 import type { AddHabitatFormProps } from "./AddHabitatForm";
 import type { AddUpdateHabitatFormProps } from "./AddUpdateHabitatForm";
+import type { AddSpeciesFormProps } from "./AddSpeciesForm";
 import { modalBaseStyles } from "../styles/modalStyles";
 import { combineClassNames } from "../util";
 
 type ModalProps =
   | (AddHabitatFormProps & { onRequestClose?: () => void })
   | (AddUpdateHabitatFormProps & { onRequestClose?: () => void })
+  | (AddSpeciesFormProps & { onRequestClose?: () => void })
   | undefined;
 
 Modal.setAppElement("#root");
 
-function ModalComponent({
-content,
-options
-}: ModalOptions) {
+function ModalComponent({ content, options }: ModalOptions) {
   const overlayStyles = `
         fixed
         inset-0
@@ -29,10 +29,9 @@ options
     modalBaseStyles,
     `
         fixed
-        top-1/3
+        top-20
         left-1/2
         -translate-x-1/2
-        -translate-y-1/2
         p-4
         m-4
         rounded-lg
@@ -41,25 +40,32 @@ options
         dark:text-white
         border
         border-slate-400
-    `);
+    `,
+  );
 
-    const modalLabels: Record<string, string> = {
-      addHabitat: "Add Habitat",
-      updateHabitat: "Update Habitat",
-    };
+  const modalLabels: Record<string, string> = {
+    addHabitat: "Add Habitat",
+    updateHabitat: "Update Habitat",
+    addSpecies: "Add Species",
+    updateSpecies: "Update Species",
+  };
 
-    const contentLabel = content ? modalLabels[content] : "Modal";
+  const contentLabel = content ? modalLabels[content] : "Modal";
 
-    const ContentComponent = (modalProps: ModalProps) => {
-      switch (content) {
-        case "addHabitat":
-          return <AddHabitatForm {...modalProps} />;
-        case "updateHabitat":
-          return <AddUpdateHabitatForm {...modalProps} />;
-        default:
-          return null;
-      }
+  const ContentComponent = (modalProps: ModalProps) => {
+    switch (content) {
+      case "addHabitat":
+        return <AddHabitatForm {...modalProps} />;
+      case "updateHabitat":
+        return <AddUpdateHabitatForm {...modalProps} />;
+      case "addSpecies":
+        return <AddSpeciesForm {...modalProps} />;
+      case "updateSpecies":
+        return <AddSpeciesForm {...modalProps} />;
+      default:
+        return null;
     }
+  };
 
   return (
     <Modal

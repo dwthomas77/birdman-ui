@@ -86,6 +86,7 @@ export default function HabitatsList({
             <div className="w-[100px] shrink-0">
               <Button
                 buttonSize="small"
+                variant="tertiary"
                 onClick={() => updateHabitatClickHandler?.(habitat.habitatId)}
               >
                 Update
@@ -94,6 +95,7 @@ export default function HabitatsList({
             <div className="w-[100px] shrink-0">
               <Button
                 buttonSize="small"
+                variant="tertiary"
                 onClick={() => deleteClickHandler(habitat.habitatId)}
               >
                 Remove

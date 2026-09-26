@@ -8,6 +8,11 @@ export interface Habitat {
     habitatDescription: string;
 }
 
+export interface HabitatRequest {
+    habitatName: string;
+    habitatDescription: string;
+}
+
 export type Species = FromSchema<typeof ReadSpeciesSchema>;
 export type CreateSpecies = FromSchema<typeof CreateSpeciesSchema>;
 export interface ProblemDetailsResponse {
@@ -18,7 +23,7 @@ export interface ProblemDetailsResponse {
     errors: Record<string, string>;
 }
 
-export type ModalContentType = "addHabitat" | "updateHabitat" | undefined;
+export type ModalContentType = "addHabitat" | "updateHabitat" | "addSpecies" | "updateSpecies" | undefined;
 
 interface ModalFormProps {
     onSuccess?: () => void;
@@ -28,10 +33,13 @@ interface ModalFormProps {
 interface UpdateHabitatFormProps extends ModalFormProps {
     habitatId: string;
 }
+interface UpdateSpeciesFormProps extends ModalFormProps {
+    speciesId: string;
+}
 
 export type ModalOptions = {
     content: ModalContentType;
-    options?: UpdateHabitatFormProps | AddHabitatFormProps | undefined;
+    options?: UpdateHabitatFormProps | UpdateSpeciesFormProps | AddHabitatFormProps | undefined;
     onSuccess?: () => void;
 };
 

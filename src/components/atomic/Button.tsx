@@ -2,32 +2,51 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
   onClickHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
   buttonSize?: "small"| "large";
+  variant?: "primary" | "tertiary";
 };
 
 export default function Button({
   children,
   onClickHandler = undefined,
   buttonSize = "large",
+  variant = 'primary',
   ...rest
 }: ButtonProps) {
-  const styles = `
+
+  const baseButtonStyles = `
     cursor-pointer
     rounded-lg
-    bg-zinc-700
     ${buttonSize === "small" ? "px-2" : "px-3"}
     ${buttonSize === "small" ? "py-1" : "py-2"}
-    text-zinc-100
-    transition-colors
-    hover:bg-zinc-600
-    focus:outline-none
-    focus:ring
-    focus:ring-zinc-500
     ${buttonSize === "small" ? "text-sm" : "text-base"}
-   
-    `;
+    ${buttonSize === "small" ? "min-w-[80px]" : "min-w-[125px]"}
+  `;
+
+  const variantStyles = {
+    primary: `
+      bg-zinc-600
+      border
+      border-zinc-400
+      text-zinc-100
+      hover:bg-zinc-700
+      focus:outline-none
+      focus:ring
+      focus:ring-zinc-400   
+    `,
+    tertiary: `
+      bg-transparent
+      border
+      border-zinc-400
+      text-zinc-100
+      hover:bg-zinc-700
+      focus:outline-none
+      focus:ring
+      focus:ring-zinc-400   
+    `,
+  };
 
   return (
-    <button className={styles} type="submit" onClick={onClickHandler} {...rest}>
+    <button className={`${variantStyles[variant] || variantStyles.primary} ${baseButtonStyles} `} type="submit" onClick={onClickHandler} {...rest}>
       {children}
     </button>
   );
