@@ -1,9 +1,9 @@
-import type { Species } from "../types";
+import type { Species, SpeciesCreate } from "../types";
 import type { ProblemDetailsResponse } from "../types";
 import { ApiError } from "../classes";
 
 // Async function to make a POST request
-async function createPost(data: Species): Promise<Species> {
+async function createSpecies(data: SpeciesCreate): Promise<Species> {
     const response = await fetch("http://localhost:3000/species", {
       method: "POST",
       headers: {
@@ -20,4 +20,4 @@ async function createPost(data: Species): Promise<Species> {
     throw new ApiError(problem);
 }
 
-export default createPost;
+export default createSpecies;

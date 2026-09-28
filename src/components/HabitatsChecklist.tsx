@@ -4,14 +4,15 @@ import { checkboxStyles } from "../styles/formStyles";
 export interface HabitatsChecklistProps {
   habitats: Habitat[];
   associatedHabitats: Habitat[];
-  onHabitatChange: (habitatId: string, isChecked: boolean) => void;
+  onChange: (habitatIds: string[]) => void;
 }
 
 export default function HabitatsChecklist({
   habitats,
   associatedHabitats,
-  onHabitatChange,
+  onChange,
 }: HabitatsChecklistProps) {
+
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
       {habitats.map((habitat) => (
@@ -23,12 +24,18 @@ export default function HabitatsChecklist({
           <input
             className={checkboxStyles.checkbox}
             type="checkbox"
-            defaultChecked={associatedHabitats.some(
+            checked={associatedHabitats.some(
               (associatedHabitat) =>
                 associatedHabitat.habitatId === habitat.habitatId,
             )}
             onChange={(event) =>
-              onHabitatChange(habitat.habitatId, event.target.checked)
+              onChange(
+                event.target.checked
+                  ? [...associatedHabitats.map((h) => h.habitatId), habitat.habitatId]
+                  : associatedHabitats
+                      .map((h) => h.habitatId)
+                      .filter((id) => id !== habitat.habitatId)
+              )
             }
           />
           <span className={checkboxStyles.labelContent}>{habitat.habitatName}</span>

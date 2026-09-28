@@ -14,7 +14,7 @@ export interface HabitatRequest {
 }
 
 export type Species = FromSchema<typeof ReadSpeciesSchema>;
-export type CreateSpecies = FromSchema<typeof CreateSpeciesSchema>;
+export type SpeciesCreate = FromSchema<typeof CreateSpeciesSchema>;
 export interface ProblemDetailsResponse {
     type: string;
     title: string;

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { TextInput, Button } from "./atomic";
-import type { Species, Habitat } from "../types";
+import type { Species, SpeciesCreate, Habitat } from "../types";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { postSpecies, putSpecies } from "../services";
+import { createSpecies, updateSpecies } from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "../classes";
@@ -12,8 +12,7 @@ import { LoadingSpinner } from "./atomic";
 import { tabStyles } from "../styles";
 import HabitatsChecklist from "./HabitatsChecklist";
 
-const initialDefaultFormValues: Species = {
-  speciesId: "",
+const initialDefaultFormValues: SpeciesCreate = {
   speciesName: "",
   family: "",
   genus: "",
@@ -24,7 +23,7 @@ const initialDefaultFormValues: Species = {
   weightMax: 0,
   wingspanMin: 0,
   wingspanMax: 0,
-  //habitats: [],
+  habitats: [],
 };
 
 export interface AddSpeciesFormProps {
@@ -33,7 +32,7 @@ export interface AddSpeciesFormProps {
   updateSpeciesId?: string;
 }
 
-export default function AddSpeciesForm({
+export default function CreateAddSpeciesForm({
   onSuccess,
   mode = "add",
   updateSpeciesId,
@@ -42,15 +41,15 @@ export default function AddSpeciesForm({
     "speciesInfo",
   );
   const { addToast } = useToast();
-  const addSpeciesMutation = useMutation<Species, Error, Species>({
-    mutationFn: postSpecies,
+  const addSpeciesMutation = useMutation<Species, Error, SpeciesCreate>({
+    mutationFn: createSpecies,
   });
   const putSpeciesMutation = useMutation<
     Species,
     Error,
-    { data: Species; speciesId: string }
+    { data: SpeciesCreate; speciesId: string }
   >({
-    mutationFn: ({ data, speciesId }) => putSpecies(data, speciesId),
+    mutationFn: ({ data, speciesId }) => updateSpecies(data, speciesId),
   });
   const queryClient = useQueryClient();
 
@@ -66,6 +65,7 @@ export default function AddSpeciesForm({
         throw new Error("Species not found", { cause: error });
       }
     },
+    enabled: !!updateSpeciesId,
   });
 
   const { data: allHabitats } = useQuery<Habitat[]>({
@@ -99,7 +99,7 @@ export default function AddSpeciesForm({
     return <div>ERROR SPECIES ID NOT PROVIDED</div>;
   }
 
-  const handleSubmit = async (values: Species, formApi: FormApi<Species>) => {
+  const handleSubmit = async (values: SpeciesCreate, formApi: FormApi<SpeciesCreate>) => {
     try {
       if (mode === "update" && updateSpeciesId) {
         const updatedSpecies = await putSpeciesMutation.mutateAsync({
@@ -153,8 +153,24 @@ export default function AddSpeciesForm({
     }
   };
 
-  const defaultFormValues: Species =
-    mode === "update" && species ? species : initialDefaultFormValues;
+  const defaultFormValues: SpeciesCreate =
+    mode === "update" && species
+      ? {
+          speciesName: species.speciesName,
+          family: species.family,
+          genus: species.genus,
+          localeName: species.localeName,
+          lengthMin: species.lengthMin,
+          lengthMax: species.lengthMax,
+          weightMin: species.weightMin,
+          weightMax: species.weightMax,
+          wingspanMin: species.wingspanMin,
+          wingspanMax: species.wingspanMax,
+          habitats:
+            species.habitats?.map((habitat: Habitat) => habitat.habitatId) ??
+            [],
+        }
+      : initialDefaultFormValues;
 
   return (
     <div className="flex flex-col gap-1 min-w-[500px] overflow-y-auto">
@@ -209,7 +225,7 @@ export default function AddSpeciesForm({
       </div>
 
       <div className="flex flex-col gap-1">
-        <Form<Species>
+        <Form<SpeciesCreate>
           initialValues={defaultFormValues}
           onSubmit={handleSubmit}
         >
@@ -233,17 +249,7 @@ export default function AddSpeciesForm({
                     }
                   >
                     <div className="flex flex-col gap-2 w-[600px]">
-                      <TextInput
-                        inputId="speciesId"
-                        label="Species ID"
-                        required={true}
-                        value={values.speciesId}
-                        onChangeHandler={(value) =>
-                          setValue("speciesId", value)
-                        }
-                        errorMessage={errors.speciesId || undefined}
-                        disabled={mode === "update" ? true : false}
-                      />
+
                       <TextInput
                         inputId="speciesName"
                         label="Species Name"
@@ -367,18 +373,10 @@ export default function AddSpeciesForm({
                       habitats={allHabitats || []}
                       associatedHabitats={allHabitats?.filter((habitat) =>
                         values.habitats?.some(
-                          (nextHabitat) =>
-                            (nextHabitat as Habitat).habitatId === habitat.habitatId,
+                          (habitatId) => habitatId === habitat.habitatId,
                         ),
                       ) || []}
-                      onHabitatChange={(
-                        habitatId: string,
-                        isChecked: boolean,
-                      ) => {
-                        console.log(
-                          `Habitat ${habitatId} changed to ${isChecked}`,
-                        );
-                      }}
+                      onChange={(habitatIds) => setValue("habitats", habitatIds)}
                     />
                   </div>
                 </div>

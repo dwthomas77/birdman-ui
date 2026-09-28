@@ -65,7 +65,7 @@ export default function HabitatsList({
             Habitat Name
           </div>
           <div className="w-[150px] shrink-0 border-b border-gray-300 pb-1">
-            Habitat ID
+            Habitat Description
           </div>
           <div className="w-[100px] shrink-0 border-b border-gray-300 pb-1">
             Update
@@ -82,7 +82,7 @@ export default function HabitatsList({
             <div className="flex-1 overflow-hidden text-ellipsis">
               {habitat.habitatName}
             </div>
-            <div className="w-[150px] shrink-0">{habitat.habitatId}</div>
+            <div className="w-[150px] shrink-0">{habitat.habitatDescription}</div>
             <div className="w-[100px] shrink-0">
               <Button
                 buttonSize="small"

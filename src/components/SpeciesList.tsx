@@ -65,7 +65,13 @@ export default function SpeciesList({
             Species Name
           </div>
           <div className="w-[150px] shrink-0 border-b border-gray-300 pb-1">
-            Species ID
+            Locale Name
+          </div>
+          <div className="w-[120px] shrink-0 border-b border-gray-300 pb-1">
+            Genus
+          </div>
+          <div className="w-[120px] shrink-0 border-b border-gray-300 pb-1">
+            Family
           </div>
           <div className="w-[100px] shrink-0 border-b border-gray-300 pb-1">
             Update
@@ -82,7 +88,9 @@ export default function SpeciesList({
             <div className="flex-1 overflow-hidden text-ellipsis">
               {species.speciesName}
             </div>
-            <div className="w-[150px] shrink-0">{species.speciesId}</div>
+            <div className="w-[150px] shrink-0">{species.localeName}</div>
+            <div className="w-[120px] shrink-0">{species.genus}</div>
+            <div className="w-[120px] shrink-0">{species.family}</div>
             <div className="w-[100px] shrink-0">
               <Button
                 buttonSize="small"

@@ -30,7 +30,7 @@ const ReadSpeciesSchema = {
       },
     },
   },
-  "required": ["speciesId", "speciesName", "family", "genus", "localeName", "lengthMin", "lengthMax", "weightMin", "weightMax", "wingspanMin", "wingspanMax"],
+  "required": ["speciesId", "speciesName", "family", "genus", "localeName", "lengthMin", "lengthMax", "weightMin", "weightMax", "wingspanMin", "wingspanMax", "habitats"],
 } as const;
 
 const CreateSpeciesSchema = {
@@ -39,9 +39,6 @@ const CreateSpeciesSchema = {
   description: "A species of bird",
   type: "object",
   properties: {
-    speciesId: {
-      type: "string",
-    },
     speciesName: {
       type: "string",
     },
@@ -58,14 +55,14 @@ const CreateSpeciesSchema = {
     weightMax: { type: "number" },
     wingspanMin: { type: "number" },
     wingspanMax: { type: "number" },
-    // habitats: {
-    //   type: "array",
-    //   items: {
-    //     type: "string",
-    //   },
-    // },
+    habitats: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
   },
-  "required": ["speciesId","speciesName", "family", "genus", "localeName", "lengthMin", "lengthMax", "weightMin", "weightMax", "wingspanMin", "wingspanMax"],
+  "required": ["speciesName", "family", "genus", "localeName", "lengthMin", "lengthMax", "weightMin", "weightMax", "wingspanMin", "wingspanMax", "habitats"],
 } as const;
 
 export { ReadSpeciesSchema, CreateSpeciesSchema };

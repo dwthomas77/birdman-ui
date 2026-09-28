@@ -50,7 +50,7 @@ function App() {
             />
           </Card>
           <Card>
-            {/* <SpeciesList
+            <SpeciesList
               addSpeciesClickHandler={() => openModal({contentType: "addSpecies", options: {
                 onSuccess: closeModal,
                 content: undefined
@@ -59,7 +59,7 @@ function App() {
                 contentType: "updateSpecies",
                 options: { updateSpeciesId: speciesId, mode: "update", onSuccess: closeModal, content: undefined } as ModalOptions,
               })}
-            /> */}
+            />
           </Card>
         </div>
         <Modal

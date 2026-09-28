@@ -1,11 +1,11 @@
 import Modal from "react-modal";
 import AddHabitatForm from "./AddHabitatForm";
 import AddUpdateHabitatForm from "./AddUpdateHabitatForm";
-import AddSpeciesForm from "./AddSpeciesForm";
+import CreateAddSpeciesForm from "./CreateUpdateSpeciesForm";
 import type { ModalOptions } from "../types";
 import type { AddHabitatFormProps } from "./AddHabitatForm";
 import type { AddUpdateHabitatFormProps } from "./AddUpdateHabitatForm";
-import type { AddSpeciesFormProps } from "./AddSpeciesForm";
+import type { AddSpeciesFormProps } from "./CreateUpdateSpeciesForm";
 import { modalBaseStyles } from "../styles/modalStyles";
 import { combineClassNames } from "../util";
 
@@ -59,9 +59,8 @@ function ModalComponent({ content, options }: ModalOptions) {
       case "updateHabitat":
         return <AddUpdateHabitatForm {...modalProps} />;
       case "addSpecies":
-        return <AddSpeciesForm {...modalProps} />;
       case "updateSpecies":
-        return <AddSpeciesForm {...modalProps} />;
+        return <CreateAddSpeciesForm {...modalProps} />;
       default:
         return null;
     }
