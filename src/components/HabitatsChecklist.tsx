@@ -38,11 +38,10 @@ export default function HabitatsChecklist({
               )
             }
           />
-          <span className={checkboxStyles.labelContent}>{habitat.habitatName}</span>
+          <span className={checkboxStyles.labelContent}>{habitat.name}</span>
         </label>
 
       ))}
     </div>
   );
 }
-

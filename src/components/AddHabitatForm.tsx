@@ -1,6 +1,6 @@
 import { TextInput, Button } from "./atomic";
 import type { Habitat, HabitatRequest } from "../types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { postHabitat } from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
@@ -8,8 +8,10 @@ import { ApiError } from "../classes";
 import { useToast } from "./ToastProvider";
 
 const defaultFormValues: HabitatRequest = {
-  habitatName: "",
-  habitatDescription: "",
+  code: "",
+  name: "",
+  description: "",
+  parentHabitatId: undefined,
 };
 export interface AddHabitatFormProps {
   onSuccess?: () => void;
@@ -21,6 +23,11 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
     mutationFn: postHabitat,
   });
   const queryClient = useQueryClient();
+  const { data: habitats = [] } = useQuery<Habitat[]>({
+    queryKey: ["habitats"],
+    queryFn: () =>
+      fetch("http://localhost:3000/habitats").then((response) => response.json()),
+  });
 
   const handleSubmit = async (values: HabitatRequest, formApi: FormApi<HabitatRequest>) => {
     try {
@@ -28,7 +35,7 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
         ...values,
       });
       if (newHabitat) {
-        addToast(`Habitat ${newHabitat.habitatName} added successfully.`, {
+        addToast(`Habitat ${newHabitat.name} added successfully.`, {
           type: "success",
           duration: 3500,
         });
@@ -71,25 +78,59 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
                     </div>
                   )}
                   <TextInput
-                    inputId="habitatName"
-                    label="Habitat Name"
+                    inputId="code"
+                    label="Habitat Code"
                     required={true}
-                    value={values.habitatName}
+                    value={values.code}
                     onChangeHandler={(value) =>
-                      setValue("habitatName", value)
+                      setValue("code", value)
                     }
-                    errorMessage={errors.habitatName || undefined}
+                    errorMessage={errors.code || undefined}
                   />
                   <TextInput
-                    inputId="habitatDescription"
-                    label="Habitat Description"
+                    inputId="name"
+                    label="Habitat Name"
                     required={true}
-                    value={values.habitatDescription}
+                    value={values.name}
                     onChangeHandler={(value) =>
-                      setValue("habitatDescription", value)
+                      setValue("name", value)
                     }
-                    errorMessage={errors.habitatDescription || undefined}
+                    errorMessage={errors.name || undefined}
                   />
+                  <TextInput
+                    inputId="description"
+                    label="Habitat Description"
+                    value={values.description}
+                    onChangeHandler={(value) =>
+                      setValue("description", value)
+                    }
+                    errorMessage={errors.description || undefined}
+                  />
+                  <label
+                    htmlFor="parentHabitatId"
+                    className="uppercase text-sm text-gray-400"
+                  >
+                    Parent Habitat:
+                    <select
+                      id="parentHabitatId"
+                      name="parentHabitatId"
+                      value={values.parentHabitatId ?? ""}
+                      onChange={(event) =>
+                        setValue(
+                          "parentHabitatId",
+                          event.target.value || undefined,
+                        )
+                      }
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-zinc-100"
+                    >
+                      <option value="">None</option>
+                      {habitats.map((habitat) => (
+                        <option key={habitat.habitatId} value={habitat.habitatId}>
+                          {habitat.code} - {habitat.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
                   <div className="mt-2 flex">
                     <Button type="submit" disabled={isSubmitting}>
                       {isSubmitting ? "Saving..." : "Save"}

@@ -80,9 +80,9 @@ export default function HabitatsList({
             className="flex py-1 gap-3 hover:bg-gray-900 transition-colors"
           >
             <div className="flex-1 overflow-hidden text-ellipsis">
-              {habitat.habitatName}
+              {habitat.name}
             </div>
-            <div className="w-[150px] shrink-0">{habitat.habitatDescription}</div>
+            <div className="w-[150px] shrink-0">{habitat.description}</div>
             <div className="w-[100px] shrink-0">
               <Button
                 buttonSize="small"

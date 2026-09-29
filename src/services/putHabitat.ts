@@ -1,9 +1,9 @@
-import type { HabitatRequest } from "../types";
+import type { Habitat, HabitatRequest } from "../types";
 import type { ProblemDetailsResponse } from "../types";
 import { ApiError } from "../classes";
 
 // Async function to make a PUT request
-async function createPut(data: HabitatRequest, habitatId: string): Promise<HabitatRequest> {
+async function createPut(data: HabitatRequest, habitatId: string): Promise<Habitat> {
     const response = await fetch(`http://localhost:3000/habitats/${habitatId}`, {
       method: "PUT",
       headers: {
@@ -13,7 +13,7 @@ async function createPut(data: HabitatRequest, habitatId: string): Promise<Habit
     });
     
     if (response.status >= 200 && response.status < 300) {
-      const habitat: HabitatRequest = await response.json();
+      const habitat: Habitat = await response.json();
       return habitat;
     }
     const problem: ProblemDetailsResponse = await response.json();

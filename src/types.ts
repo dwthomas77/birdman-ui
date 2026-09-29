@@ -1,16 +1,15 @@
 import type { FromSchema } from "json-schema-to-ts";
 import type { AddHabitatFormProps } from "./components/AddHabitatForm";
 import { CreateSpeciesSchema, ReadSpeciesSchema } from './schema/species.schema.js';
-
-export interface Habitat {
-    habitatId: string;
-    habitatName: string;
-    habitatDescription: string;
+export interface HabitatRequest {
+  code: string;
+  name: string;
+  description?: string;
+  parentHabitatId?: string;
 }
 
-export interface HabitatRequest {
-    habitatName: string;
-    habitatDescription: string;
+export interface Habitat extends HabitatRequest {
+    habitatId: string;
 }
 
 export type Species = FromSchema<typeof ReadSpeciesSchema>;
