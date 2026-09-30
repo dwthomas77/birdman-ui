@@ -3,7 +3,8 @@ import { useState } from "react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import HabitatTable from "./components/HabitatsTable";
 import SpeciesTable  from "./components/SpeciesTable";
-import { Card } from "./components/atomic";
+import Header from "./components/Header";
+import type { HeaderTab } from "./components/Header";
 import { ToastProvider } from "./components/ToastProvider";
 import Modal from "./components/Modal";
 import type { ModalContentType, ModalOptions } from "./types";
@@ -11,6 +12,7 @@ import type { ModalContentType, ModalOptions } from "./types";
 const queryClient = new QueryClient();
 
 function App() {
+  const [activeTab, setActiveTab] = useState<HeaderTab>("habitats");
   const [modalContentType, setModalContentType] =
     useState<ModalContentType>(undefined);
   const [modalOptions, setModalOptions] = useState<ModalOptions>({
@@ -35,12 +37,23 @@ function App() {
   };
 
   const footerHeight = 25;
+  const headerHeight = 49;
 
   return (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
-        <div className="flex" style={{ height: `calc(100vh - ${footerHeight}px)` }}>
-          <Card className="w-1/3">
+        <Header activeTab={activeTab} onTabChange={setActiveTab} />
+        <div
+          className="overflow-y-auto"
+          style={{
+            height: `calc(100vh - ${footerHeight}px - ${headerHeight}px)`,
+          }}
+        >
+          <div
+            className={
+              activeTab === "habitats" ? "block h-full p-4" : "hidden"
+            }
+          >
             <HabitatTable
               addHabitatClickHandler={() =>
                 openModal({
@@ -62,9 +75,11 @@ function App() {
                 })
               }
             />
-          </Card>
-          
-          <Card className="flex-1">
+          </div>
+
+          <div
+            className={activeTab === "species" ? "block h-full p-4" : "hidden"}
+          >
             <SpeciesTable
               addSpeciesClickHandler={() =>
                 openModal({
@@ -87,7 +102,7 @@ function App() {
                 })
               }
             />
-          </Card>
+          </div>
         </div>
         <div id="footer" style={{ height: `${footerHeight}px` }}></div>
         <Modal content={modalContentType} options={modalOptions} />
