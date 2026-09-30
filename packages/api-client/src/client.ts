@@ -55,9 +55,7 @@ export class ApiClient {
     init: RequestInit,
     allowEmptyResponse = false,
   ): Promise<T> {
-    const headers = new Headers({
-      Accept: "application/json",
-    });
+    const headers = new Headers({ Accept: "application/json" });
 
     if (init.body !== undefined) {
       headers.set("Content-Type", "application/json");
@@ -91,10 +89,9 @@ export class ApiClient {
     try {
       return JSON.parse(responseText) as T;
     } catch (error) {
-      throw new Error(
-        `API returned invalid JSON for ${init.method} ${path}.`,
-        { cause: error },
-      );
+      throw new Error(`API returned invalid JSON for ${init.method} ${path}.`, {
+        cause: error,
+      });
     }
   }
 

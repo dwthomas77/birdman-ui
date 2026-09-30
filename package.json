@@ -9,10 +9,15 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace birdman-admin",
+    "dev:explorer": "npm run dev --workspace birdman-explorer",
     "build": "npm run build --workspace birdman-admin",
+    "build:explorer": "npm run build --workspace birdman-explorer",
+    "build:all": "npm run build --workspace birdman-admin && npm run build --workspace birdman-explorer",
     "lint": "eslint .",
     "test:e2e": "playwright test",
-    "preview": "npm run preview --workspace birdman-admin"
+    "test:e2e:explorer": "playwright test --config playwright.explorer.config.ts",
+    "preview": "npm run preview --workspace birdman-admin",
+    "preview:explorer": "npm run preview --workspace birdman-explorer"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

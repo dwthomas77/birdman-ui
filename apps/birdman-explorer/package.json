@@ -1,0 +1,29 @@
+{
+  "name": "birdman-explorer",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc -b",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@birdman/api-client": "*",
+    "@birdman/shared-types": "*",
+    "@birdman/shared-ui": "*",
+    "@tanstack/react-query": "^5.101.1",
+    "@tanstack/react-router": "^1.170.41",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/router-plugin": "^1.168.42",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.0"
+  }
+}

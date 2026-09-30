@@ -12,7 +12,9 @@ test("API client uses the configured base URL and app auth headers", async ({
   });
 
   const response = await page.evaluate(async () => {
-    const { createApiClient } = await import("/src/api/client.ts");
+    const { createApiClient } = await import(
+      "/@fs/Users/davidthomas/dev/training/birdman-ui/packages/api-client/src/client.ts"
+    );
     const client = createApiClient({
       baseUrl: "http://127.0.0.1:3001/api",
       getAuthHeaders: () => ({ Authorization: "Bearer test-token" }),

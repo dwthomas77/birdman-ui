@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TextInput, Button } from "./atomic";
+import { LoadingSpinner } from "@birdman/shared-ui";
 import type { Species, SpeciesCreate, Habitat } from "@birdman/shared-types";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import {
@@ -12,7 +13,6 @@ import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "@birdman/shared-types";
 import { useToast } from "./ToastProvider";
-import { LoadingSpinner } from "./atomic";
 import { tabStyles } from "../styles";
 import HabitatsChecklist from "./HabitatsChecklist";
 

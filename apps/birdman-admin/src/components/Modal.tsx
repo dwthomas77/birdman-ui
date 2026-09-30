@@ -11,16 +11,16 @@ import type { UsersCreateUpdateFormProps } from "./UsersCreateUpdateForm";
 import { modalBaseStyles } from "../styles/modalStyles";
 import { combineClassNames } from "../util";
 
-type ModalProps =
-  | (AddHabitatFormProps & { onRequestClose?: () => void })
-  | (AddUpdateHabitatFormProps & { onRequestClose?: () => void })
-  | (AddSpeciesFormProps & { onRequestClose?: () => void })
-  | (UsersCreateUpdateFormProps & { onRequestClose?: () => void })
+type ModalFormProps =
+  | AddHabitatFormProps
+  | AddUpdateHabitatFormProps
+  | AddSpeciesFormProps
+  | UsersCreateUpdateFormProps
   | undefined;
 
 Modal.setAppElement("#root");
 
-function ModalComponent({ content, options }: ModalOptions) {
+function ModalComponent({ content, ...modalProps }: ModalOptions) {
   const overlayStyles = `
         fixed
         inset-0
@@ -57,7 +57,7 @@ function ModalComponent({ content, options }: ModalOptions) {
 
   const contentLabel = content ? modalLabels[content] : "Modal";
 
-  const ContentComponent = (modalProps: ModalProps) => {
+  const ContentComponent = (modalProps: ModalFormProps) => {
     switch (content) {
       case "addHabitat":
         return <AddHabitatForm {...modalProps} />;
@@ -77,12 +77,12 @@ function ModalComponent({ content, options }: ModalOptions) {
   return (
     <Modal
       isOpen={!!content}
-      onRequestClose={options?.onSuccess}
+      onRequestClose={modalProps.onSuccess}
       contentLabel={contentLabel}
       className={modalStyles}
       overlayClassName={overlayStyles}
     >
-      {ContentComponent(options as ModalProps)}
+      {ContentComponent(modalProps as ModalFormProps)}
     </Modal>
   );
 }

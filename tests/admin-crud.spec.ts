@@ -1,18 +1,32 @@
 import { expect, test } from "@playwright/test";
 import { mockBirdApi } from "./helpers/mockBirdApi";
 
-test("admin navigation switches between the management tabs", async ({
+test("admin navigation switches between management routes", async ({
   page,
 }) => {
   await mockBirdApi(page);
   await page.goto("/");
 
   await expect(page.getByRole("heading", { name: "HABITATS" })).toBeVisible();
-  await page.getByRole("button", { name: "Species" }).click();
+  await expect(page).toHaveURL(/\/habitats$/);
+  await page.getByRole("link", { name: "Species" }).click();
   await expect(page.getByRole("heading", { name: "SPECIES" })).toBeVisible();
-  await page.getByRole("button", { name: "Users" }).click();
+  await expect(page).toHaveURL(/\/species$/);
+  await page.getByRole("link", { name: "Users" }).click();
   await expect(page.getByRole("heading", { name: "USERS" })).toBeVisible();
-  await page.getByRole("button", { name: "Habitats" }).click();
+  await expect(page).toHaveURL(/\/users$/);
+  await page.getByRole("link", { name: "Habitats" }).click();
+  await expect(page.getByRole("heading", { name: "HABITATS" })).toBeVisible();
+});
+
+test("management routes render when opened directly", async ({ page }) => {
+  await mockBirdApi(page);
+
+  await page.goto("/species");
+  await expect(page.getByRole("heading", { name: "SPECIES" })).toBeVisible();
+  await page.goto("/users");
+  await expect(page.getByRole("heading", { name: "USERS" })).toBeVisible();
+  await page.goto("/habitats");
   await expect(page.getByRole("heading", { name: "HABITATS" })).toBeVisible();
 });
 
@@ -72,7 +86,7 @@ test("habitats can be created, updated, and deleted", async ({ page }) => {
 test("species can be created, updated, and deleted", async ({ page }) => {
   const { state, requests } = await mockBirdApi(page);
   await page.goto("/");
-  await page.getByRole("button", { name: "Species" }).click();
+  await page.getByRole("link", { name: "Species" }).click();
   await page.getByRole("button", { name: "Add Species" }).click();
 
   const dialog = page.getByRole("dialog", { name: "Add Species" });

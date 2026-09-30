@@ -1,4 +1,5 @@
 import { TextInput, Button } from "./atomic";
+import { LoadingSpinner } from "@birdman/shared-ui";
 import type { Habitat, HabitatRequest } from "@birdman/shared-types";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { getHabitat, getHabitats, putHabitat } from "../services";
@@ -6,7 +7,6 @@ import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "@birdman/shared-types";
 import { useToast } from "./ToastProvider";
-import { LoadingSpinner } from "./atomic";
 import { formErrorMessage } from "../styles/formStyles";
 
 export interface AddUpdateHabitatFormProps {
