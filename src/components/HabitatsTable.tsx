@@ -105,6 +105,34 @@ export default function HabitatsList({
     data: data ?? [],
   });
 
+  const generateRowClassName = (code: string) => {
+    const classLevel = (code.match(/\./g) ?? []).length;
+    switch (classLevel) {
+      case 0:
+        return tableStyles.rowLevelOne;
+      case 1:
+        return tableStyles.rowLevelTwo;
+      case 2:
+        return tableStyles.rowLevelThree;
+      default:
+        return tableStyles.row;
+    }
+  }
+
+  const generateFirstTDClassName = (code: string) => {
+    const classLevel = (code.match(/\./g) ?? []).length;
+    switch (classLevel) {
+      case 0:
+        return tableStyles.tdFirstLevelOne;
+      case 1:
+        return tableStyles.tdFirstLevelTwo;
+      case 2:
+        return tableStyles.tdFirstLevelThree;
+      default:
+        return tableStyles.tdFirst;
+    }
+  };
+
   // 6. Render markup from the table instance APIs
   return (
     <div className="flex flex-col gap-1">
@@ -116,7 +144,7 @@ export default function HabitatsList({
           </Button>
         </div>
       </div>
-      <table className="border-separate border-spacing-y-2">
+      <table className="border-separate border-spacing-y-1">
         <thead className={tableStyles.header}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -130,11 +158,11 @@ export default function HabitatsList({
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody className={tableStyles.tbody}>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getAllCells().map((cell) => (
-                <td key={cell.id}>
+            <tr key={row.id} className={generateRowClassName(row.getValue("code"))}>
+              {row.getAllCells().map((cell, cellIndex) => (
+                <td key={cell.id} className={cellIndex === 0 ? generateFirstTDClassName(row.getValue("code")) : undefined}>
                   <table.FlexRender cell={cell} />
                 </td>
               ))}

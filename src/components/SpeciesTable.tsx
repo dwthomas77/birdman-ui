@@ -119,7 +119,7 @@ export default function SpeciesTable({
           </Button>
         </div>
       </div>
-      <table className="border-separate border-spacing-y-2">
+      <table className="border-separate border-spacing-y-1">
         <thead className={tableStyles.header}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -133,11 +133,11 @@ export default function SpeciesTable({
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody className={tableStyles.tbody}>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} >
+            <tr key={row.id} className={tableStyles.row} >
               {row.getAllCells().map((cell) => (
-                <td key={cell.id}>
+                <td key={cell.id} className={tableStyles.tdFirst}>
                   <table.FlexRender cell={cell} />
                 </td>
               ))}

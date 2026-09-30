@@ -60,7 +60,7 @@ function ModalComponent({ content, options }: ModalOptions) {
         return <AddUpdateHabitatForm {...modalProps} />;
       case "addSpecies":
       case "updateSpecies":
-        return <CreateAddSpeciesForm {...modalProps} />;
+        return <div><CreateAddSpeciesForm {...modalProps} /></div>;
       default:
         return null;
     }

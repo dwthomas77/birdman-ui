@@ -85,7 +85,6 @@ export default function CreateAddSpeciesForm({
   const { isLoading, error, data: species } = speciesQuery;
 
   if (isLoading || error) {
-    console.log("the error is", error);
     return (
       <div>
         {error && <div className={""}>{error.message}</div>}
@@ -120,7 +119,6 @@ export default function CreateAddSpeciesForm({
           onSuccess?.();
         }
       } else if (mode === "update" && !updateSpeciesId) {
-        console.log("updateSpeciesId is required when mode is 'update'");
         addToast(`Error: updateSpeciesId is required when mode is 'update'`, {
           type: "error",
           duration: 3500,
@@ -232,7 +230,6 @@ export default function CreateAddSpeciesForm({
           {(renderProps) => {
             const { values, errors, setValue, isSubmitting } = renderProps;
             const formError = errors.form || false;
-            console.log("active tab is", activeTab);
             return (
               <>
                 {formError && (
