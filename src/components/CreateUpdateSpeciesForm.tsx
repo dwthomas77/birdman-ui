@@ -171,7 +171,7 @@ export default function CreateAddSpeciesForm({
       : initialDefaultFormValues;
 
   return (
-    <div className="flex flex-col gap-1 min-w-[500px] overflow-y-auto">
+    <div className="flex flex-col gap-1 min-w-[500px] overflow-y-auto mb-4">
       <div className="justify-between items-center w-full flex">
         <h2 className="text-lg font-semibold uppercase tracking-wide">
           ADD SPECIES

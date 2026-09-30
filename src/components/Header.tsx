@@ -1,6 +1,6 @@
 import { tabStyles } from "../styles";
 
-export type HeaderTab = "habitats" | "species";
+export type HeaderTab = "habitats" | "species" | "users";
 
 interface HeaderProps {
   activeTab: HeaderTab;
@@ -46,6 +46,21 @@ export default function Header({ activeTab, onTabChange }: HeaderProps) {
             }
           >
             Species
+          </button>
+        </div>
+        <div
+          className={
+            activeTab === "users"
+              ? tabStyles.activeContainer
+              : tabStyles.container
+          }
+        >
+          <button
+            onClick={() => onTabChange("users")}
+            type="button"
+            className={activeTab === "users" ? tabStyles.activeTab : tabStyles.tab}
+          >
+            Users
           </button>
         </div>
       </div>

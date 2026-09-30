@@ -2,10 +2,12 @@ import Modal from "react-modal";
 import AddHabitatForm from "./AddHabitatForm";
 import AddUpdateHabitatForm from "./AddUpdateHabitatForm";
 import CreateAddSpeciesForm from "./CreateUpdateSpeciesForm";
+import UsersCreateUpdateForm from "./UsersCreateUpdateForm";
 import type { ModalOptions } from "../types";
 import type { AddHabitatFormProps } from "./AddHabitatForm";
 import type { AddUpdateHabitatFormProps } from "./AddUpdateHabitatForm";
 import type { AddSpeciesFormProps } from "./CreateUpdateSpeciesForm";
+import type { UsersCreateUpdateFormProps } from "./UsersCreateUpdateForm";
 import { modalBaseStyles } from "../styles/modalStyles";
 import { combineClassNames } from "../util";
 
@@ -13,6 +15,7 @@ type ModalProps =
   | (AddHabitatFormProps & { onRequestClose?: () => void })
   | (AddUpdateHabitatFormProps & { onRequestClose?: () => void })
   | (AddSpeciesFormProps & { onRequestClose?: () => void })
+  | (UsersCreateUpdateFormProps & { onRequestClose?: () => void })
   | undefined;
 
 Modal.setAppElement("#root");
@@ -48,6 +51,8 @@ function ModalComponent({ content, options }: ModalOptions) {
     updateHabitat: "Update Habitat",
     addSpecies: "Add Species",
     updateSpecies: "Update Species",
+    addUser: "Add User",
+    updateUser: "Update User",
   };
 
   const contentLabel = content ? modalLabels[content] : "Modal";
@@ -61,6 +66,9 @@ function ModalComponent({ content, options }: ModalOptions) {
       case "addSpecies":
       case "updateSpecies":
         return <div><CreateAddSpeciesForm {...modalProps} /></div>;
+      case "addUser":
+      case "updateUser":
+        return <UsersCreateUpdateForm {...modalProps} />;
       default:
         return null;
     }

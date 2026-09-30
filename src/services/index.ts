@@ -4,3 +4,6 @@ export { default as putHabitat } from './putHabitat';
 export { default as deleteSpecies } from './deleteSpecies';
 export { default as createSpecies } from './postSpecies';
 export { default as updateSpecies } from './putSpecies';
+export { default as createUser } from "./postUser";
+export { default as updateUser } from "./putUser";
+export { default as deleteUser } from "./deleteUser";

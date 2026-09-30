@@ -3,6 +3,7 @@ import { useState } from "react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import HabitatTable from "./components/HabitatsTable";
 import SpeciesTable  from "./components/SpeciesTable";
+import UserTable from "./components/UserTable";
 import Header from "./components/Header";
 import type { HeaderTab } from "./components/Header";
 import { ToastProvider } from "./components/ToastProvider";
@@ -99,6 +100,32 @@ function App() {
                     onSuccess: closeModal,
                     content: undefined,
                   } as ModalOptions,
+                })
+              }
+            />
+          </div>
+
+          <div className={activeTab === "users" ? "block h-full p-4" : "hidden"}>
+            <UserTable
+              addUserClickHandler={() =>
+                openModal({
+                  contentType: "addUser",
+                  options: {
+                    content: undefined,
+                    mode: "add",
+                    onSuccess: closeModal,
+                  },
+                })
+              }
+              updateUserClickHandler={(userId) =>
+                openModal({
+                  contentType: "updateUser",
+                  options: {
+                    content: undefined,
+                    mode: "update",
+                    userId,
+                    onSuccess: closeModal,
+                  },
                 })
               }
             />
