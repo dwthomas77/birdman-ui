@@ -7,8 +7,15 @@ The repository uses npm workspaces. The existing Vite application lives in
 
 ```sh
 npm ci
+cp apps/birdman-admin/.env.example apps/birdman-admin/.env.local
 npm run dev
 ```
+
+Set `VITE_API_BASE_URL` in `apps/birdman-admin/.env.local` to configure the
+Bird Engine API URL. It defaults to `http://localhost:3000` to preserve the
+existing local development setup. The API client accepts an app-provided
+authentication header callback when an authentication strategy is selected;
+no authentication headers are sent by default.
 
 ## Build and verification
 

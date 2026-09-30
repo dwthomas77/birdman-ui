@@ -2,12 +2,16 @@ import { useState } from "react";
 import { TextInput, Button } from "./atomic";
 import type { Species, SpeciesCreate, Habitat } from "../types";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { createSpecies, updateSpecies } from "../services";
+import {
+  createSpecies,
+  getHabitats,
+  getSpeciesById,
+  updateSpecies,
+} from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "../classes";
 import { useToast } from "./ToastProvider";
-import { fetchJson } from "../util";
 import { LoadingSpinner } from "./atomic";
 import { tabStyles } from "../styles";
 import HabitatsChecklist from "./HabitatsChecklist";
@@ -57,10 +61,7 @@ export default function CreateAddSpeciesForm({
     queryKey: ["species", updateSpeciesId],
     queryFn: async () => {
       try {
-        const response = await fetchJson<Species>(
-          `http://localhost:3000/species/${updateSpeciesId}`,
-        );
-        return response as Species;
+        return await getSpeciesById(updateSpeciesId ?? "");
       } catch (error) {
         throw new Error("Species not found", { cause: error });
       }
@@ -72,10 +73,7 @@ export default function CreateAddSpeciesForm({
     queryKey: ["habitats"],
     queryFn: async () => {
       try {
-        const response = await fetchJson<Habitat[]>(
-          `http://localhost:3000/habitats`,
-        );
-        return response as Habitat[];
+        return await getHabitats();
       } catch (error) {
         throw new Error("Habitats not found", { cause: error });
       }

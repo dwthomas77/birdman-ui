@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import type { Species } from "../types";
 import { Button } from "./atomic";
-import { deleteSpecies } from "../services";
+import { deleteSpecies, getSpecies } from "../services";
 import { useToast } from "./ToastProvider";
 
 interface SpeciesListProps {
@@ -15,8 +15,7 @@ export default function SpeciesList({
 }: SpeciesListProps) {
   const { isPending, error, data, refetch } = useQuery<Species[]>({
     queryKey: ["species"],
-    queryFn: () =>
-      fetch("http://localhost:3000/species").then((res) => res.json()),
+    queryFn: getSpecies,
   });
 
   const deleteSpeciesMutation = useMutation<string, Error, string>({

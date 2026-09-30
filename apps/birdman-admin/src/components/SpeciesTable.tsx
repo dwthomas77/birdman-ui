@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import type { Species } from "../types";
 import { Button } from "./atomic";
-import { deleteSpecies } from "../services";
+import { deleteSpecies, getSpecies } from "../services";
 import { useToast } from "./ToastProvider";
 import { tableStyles } from "../styles";
 
@@ -18,8 +18,7 @@ export default function SpeciesTable({
 }: SpeciesListProps) {
   const { data: speciesData, refetch } = useQuery<Species[]>({
     queryKey: ["species"],
-    queryFn: () =>
-      fetch("http://localhost:3000/species").then((res) => res.json()),
+    queryFn: getSpecies,
   });
 
   const deleteSpeciesMutation = useMutation<string, Error, string>({

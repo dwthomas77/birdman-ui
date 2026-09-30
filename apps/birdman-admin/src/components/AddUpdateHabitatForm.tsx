@@ -1,13 +1,12 @@
 import { TextInput, Button } from "./atomic";
 import type { Habitat, HabitatRequest } from "../types";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import { putHabitat } from "../services";
+import { getHabitat, getHabitats, putHabitat } from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "../classes";
 import { useToast } from "./ToastProvider";
 import { LoadingSpinner } from "./atomic";
-import { fetchJson } from "../util";
 import { formErrorMessage } from "../styles/formStyles";
 
 export interface AddUpdateHabitatFormProps {
@@ -33,8 +32,7 @@ export default function AddUpdateHabitatForm({
     queryKey: ["habitat", habitatId],
     queryFn: async () => {
       try {
-        const response = await fetchJson<Habitat>(`http://localhost:3000/habitats/${habitatId}`);
-        return response as Habitat;
+        return await getHabitat(habitatId);
       } catch (error) {
         throw new Error("Habitat not found", { cause: error });
       }
@@ -42,8 +40,7 @@ export default function AddUpdateHabitatForm({
   });
   const { data: habitats = [] } = useQuery<Habitat[]>({
     queryKey: ["habitats"],
-    queryFn: () =>
-      fetch("http://localhost:3000/habitats").then((response) => response.json()),
+    queryFn: getHabitats,
   });
 
   const { isLoading, error, data: habitat } = habitatQuery;

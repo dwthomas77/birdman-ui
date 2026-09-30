@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import type { Habitat } from "../types";
 import { Button } from "./atomic";
-import { deleteHabitat } from "../services";
+import { deleteHabitat, getHabitats } from "../services";
 import { useToast } from "./ToastProvider";
 import { tableStyles } from "../styles";
 
@@ -18,8 +18,7 @@ export default function HabitatsList({
 }: HabitatsListProps) {
   const { data, refetch } = useQuery<Habitat[]>({
     queryKey: ["habitats"],
-    queryFn: () =>
-      fetch("http://localhost:3000/habitats").then((res) => res.json()),
+    queryFn: getHabitats,
   });
 
   const deleteHabitatMutation = useMutation<string, Error, string>({

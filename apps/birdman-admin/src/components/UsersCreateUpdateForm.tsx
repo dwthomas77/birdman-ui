@@ -1,10 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { User, UserRequest } from "../types";
-import { createUser, updateUser } from "../services";
+import { createUser, getUser, updateUser } from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "../classes";
-import { fetchJson } from "../util";
 import { useToast } from "./ToastProvider";
 import { Button, LoadingSpinner, TextInput } from "./atomic";
 import { formErrorMessage } from "../styles/formStyles";
@@ -38,7 +37,7 @@ export default function UsersCreateUpdateForm({
   });
   const userQuery = useQuery<User>({
     queryKey: ["user", userId],
-    queryFn: () => fetchJson<User>(`http://localhost:3000/users/${userId}`),
+    queryFn: () => getUser(userId ?? ""),
     enabled: mode === "update" && !!userId,
   });
 

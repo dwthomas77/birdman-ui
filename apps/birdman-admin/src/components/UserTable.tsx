@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { User } from "../types";
 import { Button } from "./atomic";
-import { deleteUser } from "../services";
+import { deleteUser, getUsers } from "../services";
 import { useToast } from "./ToastProvider";
 import { tableStyles } from "../styles";
 
@@ -18,13 +18,7 @@ export default function UserTable({
 }: UserTableProps) {
   const { data: users = [], isPending, error } = useQuery<User[]>({
     queryKey: ["users"],
-    queryFn: () =>
-      fetch("http://localhost:3000/users").then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to load users: ${response.statusText}`);
-        }
-        return response.json() as Promise<User[]>;
-      }),
+    queryFn: getUsers,
   });
   const queryClient = useQueryClient();
   const { addToast } = useToast();

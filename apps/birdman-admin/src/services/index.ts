@@ -1,9 +1,19 @@
-export { default as postHabitat } from './postHabitat';
-export { default as deleteHabitat } from './deleteHabitat';
-export { default as putHabitat } from './putHabitat';
-export { default as deleteSpecies } from './deleteSpecies';
-export { default as createSpecies } from './postSpecies';
-export { default as updateSpecies } from './putSpecies';
-export { default as createUser } from "./postUser";
-export { default as updateUser } from "./putUser";
-export { default as deleteUser } from "./deleteUser";
+export {
+  getHabitats,
+  getHabitat,
+  createHabitat,
+  createHabitat as postHabitat,
+  updateHabitat,
+  updateHabitat as putHabitat,
+  deleteHabitat,
+  getSpecies,
+  getSpeciesById,
+  createSpecies,
+  updateSpecies,
+  deleteSpecies,
+  getUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "./birdApi";

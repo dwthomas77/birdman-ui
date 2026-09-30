@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const appHost = '127.0.0.1';
+const appPort = process.env.PLAYWRIGHT_PORT || '5174';
+const appUrl = `http://${appHost}:${appPort}`;
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -25,7 +29,7 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL: 'http://127.0.0.1:5173',
+    baseURL: appUrl,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -71,8 +75,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run dev --workspace birdman-admin -- --host 127.0.0.1 --port 5173 --strictPort',
-    url: 'http://127.0.0.1:5173',
+    command: `npm run dev --workspace birdman-admin -- --host ${appHost} --port ${appPort} --strictPort`,
+    url: appUrl,
     reuseExistingServer: !process.env.CI,
   },
 });

@@ -1,7 +1,7 @@
 import { TextInput, Button } from "./atomic";
 import type { Habitat, HabitatRequest } from "../types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { postHabitat } from "../services";
+import { getHabitats, postHabitat } from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "../classes";
@@ -25,8 +25,7 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
   const queryClient = useQueryClient();
   const { data: habitats = [] } = useQuery<Habitat[]>({
     queryKey: ["habitats"],
-    queryFn: () =>
-      fetch("http://localhost:3000/habitats").then((response) => response.json()),
+    queryFn: getHabitats,
   });
 
   const handleSubmit = async (values: HabitatRequest, formApi: FormApi<HabitatRequest>) => {

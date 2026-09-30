@@ -52,5 +52,3 @@ export type ModalOptions = {
     mode?: "add" | "update";
     userId?: string;
 };
-
-export type FetchJsonType = Habitat | Species | ProblemDetailsResponse | undefined;
