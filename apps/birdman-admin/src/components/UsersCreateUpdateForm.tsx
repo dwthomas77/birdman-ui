@@ -1,9 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { User, UserRequest } from "../types";
+import type { User, UserRequest } from "@birdman/shared-types";
 import { createUser, getUser, updateUser } from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
-import { ApiError } from "../classes";
+import { ApiError } from "@birdman/shared-types";
 import { useToast } from "./ToastProvider";
 import { Button, LoadingSpinner, TextInput } from "./atomic";
 import { formErrorMessage } from "../styles/formStyles";

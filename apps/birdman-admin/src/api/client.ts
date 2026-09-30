@@ -1,5 +1,5 @@
-import { ApiError } from "../classes";
-import type { ProblemDetailsResponse } from "../types";
+import { ApiError } from "@birdman/shared-types";
+import type { ProblemDetailsResponse } from "@birdman/shared-types";
 
 export interface ApiClientOptions {
   baseUrl: string;

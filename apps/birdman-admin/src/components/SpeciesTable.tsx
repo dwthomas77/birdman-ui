@@ -1,7 +1,7 @@
 import { tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import type { Species } from "../types";
+import type { Species } from "@birdman/shared-types";
 import { Button } from "./atomic";
 import { deleteSpecies, getSpecies } from "../services";
 import { useToast } from "./ToastProvider";

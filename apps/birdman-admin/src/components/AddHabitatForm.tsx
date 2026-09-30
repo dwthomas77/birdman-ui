@@ -1,10 +1,10 @@
 import { TextInput, Button } from "./atomic";
-import type { Habitat, HabitatRequest } from "../types";
+import type { Habitat, HabitatRequest } from "@birdman/shared-types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getHabitats, postHabitat } from "../services";
 import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
-import { ApiError } from "../classes";
+import { ApiError } from "@birdman/shared-types";
 import { useToast } from "./ToastProvider";
 
 const defaultFormValues: HabitatRequest = {

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import type { Habitat } from "../types";
+import type { Habitat } from "@birdman/shared-types";
 import { checkboxStyles } from "../styles/formStyles";
 
 export interface HabitatsChecklistProps {

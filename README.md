@@ -1,7 +1,9 @@
 # Birdman UI
 
 The repository uses npm workspaces. The existing Vite application lives in
-`apps/birdman-admin`; the root package provides commands that delegate to it.
+`apps/birdman-admin`; shared API contracts and error types live in
+`packages/shared-types`. The root package provides commands that delegate to
+the admin app.
 
 ## Development
 

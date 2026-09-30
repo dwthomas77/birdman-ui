@@ -1,21 +1,13 @@
-const ReadSpeciesSchema = {
+export const ReadSpeciesSchema = {
   $id: "species-read",
   title: "Species",
   description: "A species of bird",
   type: "object",
   properties: {
-    speciesId: {
-      type: "string",
-    },
-    speciesName: {
-      type: "string",
-    },
-    family: {
-      type: "string",
-    },
-    genus: {
-      type: "string",
-    },
+    speciesId: { type: "string" },
+    speciesName: { type: "string" },
+    family: { type: "string" },
+    genus: { type: "string" },
     localeName: { type: "string" },
     lengthMin: { type: "number" },
     lengthMax: { type: "number" },
@@ -30,24 +22,31 @@ const ReadSpeciesSchema = {
       },
     },
   },
-  "required": ["speciesId", "speciesName", "family", "genus", "localeName", "lengthMin", "lengthMax", "weightMin", "weightMax", "wingspanMin", "wingspanMax", "habitats"],
+  required: [
+    "speciesId",
+    "speciesName",
+    "family",
+    "genus",
+    "localeName",
+    "lengthMin",
+    "lengthMax",
+    "weightMin",
+    "weightMax",
+    "wingspanMin",
+    "wingspanMax",
+    "habitats",
+  ],
 } as const;
 
-const CreateSpeciesSchema = {
+export const CreateSpeciesSchema = {
   $id: "species-create",
   title: "Species",
   description: "A species of bird",
   type: "object",
   properties: {
-    speciesName: {
-      type: "string",
-    },
-    family: {
-      type: "string",
-    },
-    genus: {
-      type: "string",
-    },
+    speciesName: { type: "string" },
+    family: { type: "string" },
+    genus: { type: "string" },
     localeName: { type: "string" },
     lengthMin: { type: "number" },
     lengthMax: { type: "number" },
@@ -57,12 +56,20 @@ const CreateSpeciesSchema = {
     wingspanMax: { type: "number" },
     habitats: {
       type: "array",
-      items: {
-        type: "string",
-      },
+      items: { type: "string" },
     },
   },
-  "required": ["speciesName", "family", "genus", "localeName", "lengthMin", "lengthMax", "weightMin", "weightMax", "wingspanMin", "wingspanMax", "habitats"],
+  required: [
+    "speciesName",
+    "family",
+    "genus",
+    "localeName",
+    "lengthMin",
+    "lengthMax",
+    "weightMin",
+    "weightMax",
+    "wingspanMin",
+    "wingspanMax",
+    "habitats",
+  ],
 } as const;
-
-export { ReadSpeciesSchema, CreateSpeciesSchema };

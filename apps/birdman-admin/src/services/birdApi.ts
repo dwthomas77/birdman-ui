@@ -6,7 +6,7 @@ import type {
   SpeciesCreate,
   User,
   UserRequest,
-} from "../types";
+} from "@birdman/shared-types";
 
 export const getHabitats = () => apiClient.get<Habitat[]>("/habitats");
 export const getHabitat = (habitatId: string) =>
