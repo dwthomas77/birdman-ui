@@ -3,6 +3,7 @@ import { Link, Outlet } from "@tanstack/react-router";
 const navigationItems = [
   { label: "Habitats", to: "/habitats" },
   { label: "Species", to: "/species" },
+  { label: "Go Birding", to: "/go-birding" },
 ] as const;
 
 export default function ExplorerShell() {
