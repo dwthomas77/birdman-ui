@@ -5,9 +5,15 @@ import { getRandomLocations } from "../services/locationService";
 
 interface RandomLocationsProps {
   userId: string;
+  activeLocation?: Location;
+  onSelectLocation: (location: Location) => void;
 }
 
-export default function RandomLocations({ userId }: RandomLocationsProps) {
+export default function RandomLocations({
+  userId,
+  activeLocation,
+  onSelectLocation,
+}: RandomLocationsProps) {
   const { data, isFetching, error, refetch } = useQuery<Location[]>({
     queryKey: ["random-locations", userId],
     queryFn: () => getRandomLocations({ count: 3 }),
@@ -37,17 +43,28 @@ export default function RandomLocations({ userId }: RandomLocationsProps) {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {data?.map((location, index) => (
-            <Card
+            <button
               key={`${location.habitatId}-${index}`}
-              className="border-slate-800 bg-slate-900 p-5"
+              type="button"
+              aria-pressed={activeLocation === location}
+              onClick={() => onSelectLocation(location)}
+              className="text-left"
             >
-              <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
-                Location
-              </p>
-              <h3 className="mt-2 text-xl font-semibold capitalize text-white">
-                {location.name}
-              </h3>
-            </Card>
+              <Card
+                className={`h-full p-5 bg-slate-900 hover:border-emerald-500 ${
+                  activeLocation === location
+                    ? "border-emerald-500 ring-2 ring-emerald-500"
+                    : "border-slate-800"
+                }`}
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
+                  Location
+                </p>
+                <h3 className="mt-2 text-xl font-semibold capitalize text-white">
+                  {location.name}
+                </h3>
+              </Card>
+            </button>
           ))}
         </div>
       )}
