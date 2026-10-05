@@ -1,10 +1,12 @@
 import type { FromSchema } from "json-schema-to-ts";
 import { CreateSpeciesSchema, ReadSpeciesSchema } from "./schemas/species.schema";
 import { UserRequestSchema, UserSchema } from "./schemas/user.schema";
+import { LocationSchema } from "./schemas/location.schema";
 
 export type { FromSchema } from "json-schema-to-ts";
 export { CreateSpeciesSchema, ReadSpeciesSchema } from "./schemas/species.schema";
 export { UserRequestSchema, UserSchema } from "./schemas/user.schema";
+export { LocationSchema } from "./schemas/location.schema";
 
 export interface HabitatRequest {
   code: string;
@@ -21,6 +23,7 @@ export type Species = FromSchema<typeof ReadSpeciesSchema>;
 export type SpeciesCreate = FromSchema<typeof CreateSpeciesSchema>;
 export type User = FromSchema<typeof UserSchema>;
 export type UserRequest = FromSchema<typeof UserRequestSchema>;
+export type Location = FromSchema<typeof LocationSchema>;
 
 export interface ProblemDetailsResponse {
   type: string;
