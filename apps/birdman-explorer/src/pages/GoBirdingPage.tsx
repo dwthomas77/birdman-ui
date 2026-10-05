@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { LoadingSpinner } from "@birdman/shared-ui";
 import type { User } from "@birdman/shared-types";
 import { getUsers } from "../api/birdApi";
+import RandomLocations from "../components/RandomLocations";
 
 export default function GoBirdingPage() {
   const [selectedUserId, setSelectedUserId] = useState<string | undefined>(
@@ -44,6 +45,7 @@ export default function GoBirdingPage() {
           </select>
         </div>
       )}
+      {selectedUserId && <RandomLocations userId={selectedUserId} />}
     </section>
   );
 }
