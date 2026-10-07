@@ -1,7 +1,7 @@
 import type { FromSchema } from "json-schema-to-ts";
 import { CreateSpeciesSchema, ReadSpeciesSchema } from "./schemas/species.schema";
 import { UserRequestSchema, UserSchema } from "./schemas/user.schema";
-import { JournalSchema } from "./schemas/journal.schema";
+import { JournalRequestSchema, JournalSchema } from "./schemas/journal.schema";
 import { ObservationSchema } from "./schemas/observation.schema";
 
 export type { FromSchema } from "json-schema-to-ts";
@@ -9,9 +9,11 @@ export { CreateSpeciesSchema, ReadSpeciesSchema } from "./schemas/species.schema
 export { UserRequestSchema, UserSchema } from "./schemas/user.schema";
 export { LocationSchema } from "./schemas/location.schema";
 export { BirdSchema } from "./schemas/bird.schema";
-export { JournalSchema } from "./schemas/journal.schema";
+export { JournalRequestSchema, JournalSchema } from "./schemas/journal.schema";
 export { ObservationSchema } from "./schemas/observation.schema";
 export type Journal = FromSchema<typeof JournalSchema>;
+export type JournalRequest = FromSchema<typeof JournalRequestSchema>;
+export type JournalCreate = Pick<JournalRequest, "userId" | "name" | "description">;
 export type Observation = FromSchema<typeof ObservationSchema>;
 
 export interface HabitatRequest {

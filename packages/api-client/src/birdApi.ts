@@ -2,6 +2,8 @@ import type {
   Bird,
   Habitat,
   Journal,
+  JournalCreate,
+  JournalRequest,
   HabitatRequest,
   Species,
   SpeciesCreate,
@@ -56,6 +58,16 @@ export function createBirdApi(apiClient: ApiClient) {
       return `Successfully deleted user with id: ${userId}`;
     },
     getJournals: () => apiClient.get<Journal[]>("/journals"),
+    getJournalsByUserId: (userId: string) =>
+      apiClient.get<Journal[]>(`/journals?userId=${encodeURIComponent(userId)}`),
+    createJournal(data: JournalCreate) {
+      const now = new Date().toISOString();
+      return apiClient.post<Journal, JournalRequest>("/journals", {
+        ...data,
+        createdAt: now,
+        updatedAt: now,
+      });
+    },
     getJournal: (journalId: string) =>
       apiClient.get<Journal>(`/journals/${encodeURIComponent(journalId)}`),
     async deleteJournal(journalId: string): Promise<string> {

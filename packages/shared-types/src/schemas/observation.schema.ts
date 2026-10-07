@@ -1,17 +1,19 @@
+import { schemaId, schemaRef } from "./ids.js";
 const baseObservationProperties = {
-  "speciesId": { type: "string" },
-  "locationId": { "$ref": "https://bird-engine.local/api/location#" },
+  "journalId": { type: "string" },
+  "bird": { "$ref": schemaRef("bird") },
+  "location": { "$ref": schemaRef("location") },
   "observedAt": { type: "string", format: "date-time" },
   "quantity": { type: "number" },
   "notes": { type: "string" },
 } as const;
 
-const requiredObservationProperties = ["speciesId", "locationId", "observedAt", "quantity"] as const;
+const requiredObservationProperties = ["journalId", "bird", "location", "observedAt", "quantity"] as const;
 
 export const ObservationSchema = {
-  $id: "api/observation",
+  $id: schemaId("observation"),
   title: "Observation", 
-  description: "An observation of a habitat",
+  description: "An observation of a bird in a habitat",
   type: "object",
   properties: {
     ...baseObservationProperties,
@@ -22,7 +24,7 @@ export const ObservationSchema = {
 } as const;
 
 export const ObservationRequestSchema = {
-  $id: "api/observation/request",
+  $id: schemaId("observation/request"),
   title: "Observation Request",
   description: "A request for an observation",
   type: "object",
