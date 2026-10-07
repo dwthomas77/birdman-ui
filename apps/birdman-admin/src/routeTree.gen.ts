@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HabitatsRouteImport } from './routes/habitats'
+import { Route as JournalsRouteImport } from './routes/journals'
 import { Route as SpeciesRouteImport } from './routes/species'
 import { Route as UsersRouteImport } from './routes/users'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const HabitatsRoute = HabitatsRouteImport.update({
   id: '/habitats',
   path: '/habitats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalsRoute = JournalsRouteImport.update({
+  id: '/journals',
+  path: '/journals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SpeciesRoute = SpeciesRouteImport.update({
@@ -38,12 +44,14 @@ const UsersRoute = UsersRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/habitats': typeof HabitatsRoute
+  '/journals': typeof JournalsRoute
   '/species': typeof SpeciesRoute
   '/users': typeof UsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/habitats': typeof HabitatsRoute
+  '/journals': typeof JournalsRoute
   '/species': typeof SpeciesRoute
   '/users': typeof UsersRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/habitats': typeof HabitatsRoute
+  '/journals': typeof JournalsRoute
   '/species': typeof SpeciesRoute
   '/users': typeof UsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/habitats' | '/species' | '/users'
+  fullPaths: '/' | '/habitats' | '/journals' | '/species' | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/habitats' | '/species' | '/users'
-  id: '__root__' | '/' | '/habitats' | '/species' | '/users'
+  to: '/' | '/habitats' | '/journals' | '/species' | '/users'
+  id: '__root__' | '/' | '/habitats' | '/journals' | '/species' | '/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HabitatsRoute: typeof HabitatsRoute
+  JournalsRoute: typeof JournalsRoute
   SpeciesRoute: typeof SpeciesRoute
   UsersRoute: typeof UsersRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/habitats'
       fullPath: '/habitats'
       preLoaderRoute: typeof HabitatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journals': {
+      id: '/journals'
+      path: '/journals'
+      fullPath: '/journals'
+      preLoaderRoute: typeof JournalsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/species': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HabitatsRoute: HabitatsRoute,
+  JournalsRoute: JournalsRoute,
   SpeciesRoute: SpeciesRoute,
   UsersRoute: UsersRoute,
 }

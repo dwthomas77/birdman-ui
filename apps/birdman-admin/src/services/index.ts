@@ -16,4 +16,7 @@ export {
   createUser,
   updateUser,
   deleteUser,
+  getJournals,
+  getJournal,
+  deleteJournal,
 } from "./birdApi";

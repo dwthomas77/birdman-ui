@@ -5,6 +5,7 @@ const navigationItems = [
   { label: "Habitats", to: "/habitats" },
   { label: "Species", to: "/species" },
   { label: "Users", to: "/users" },
+  { label: "Journals", to: "/journals" },
 ] as const;
 
 export default function Header() {

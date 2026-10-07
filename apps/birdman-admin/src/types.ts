@@ -1,6 +1,7 @@
 import type { AddHabitatFormProps } from "./components/AddHabitatForm";
 import type { AddUpdateHabitatFormProps } from "./components/AddUpdateHabitatForm";
 import type { AddSpeciesFormProps } from "./components/CreateUpdateSpeciesForm";
+import type { JournalViewModalProps } from "./components/JournalViewModal";
 import type { UsersCreateUpdateFormProps } from "./components/UsersCreateUpdateForm";
 
 export type ModalContentType =
@@ -9,13 +10,15 @@ export type ModalContentType =
     | "addSpecies"
     | "updateSpecies"
     | "addUser"
-    | "updateUser";
+    | "updateUser"
+    | "viewJournal";
 
 export type ModalFormOptions =
     | AddHabitatFormProps
     | AddUpdateHabitatFormProps
     | AddSpeciesFormProps
-    | UsersCreateUpdateFormProps;
+    | UsersCreateUpdateFormProps
+    | JournalViewModalProps;
 
 export type ModalOptions = {
     content: ModalContentType | undefined;

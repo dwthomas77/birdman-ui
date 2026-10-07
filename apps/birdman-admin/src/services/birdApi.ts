@@ -19,6 +19,9 @@ export const {
   createUser,
   updateUser,
   deleteUser,
+  getJournals,
+  getJournal,
+  deleteJournal,
 } = birdApi;
 
 export const postHabitat = birdApi.createHabitat;

@@ -1,13 +1,15 @@
-import Modal from "react-modal";
+import { Modal as SharedModal } from "@birdman/shared-ui";
 import AddHabitatForm from "./AddHabitatForm";
 import AddUpdateHabitatForm from "./AddUpdateHabitatForm";
 import CreateAddSpeciesForm from "./CreateUpdateSpeciesForm";
 import UsersCreateUpdateForm from "./UsersCreateUpdateForm";
+import JournalViewModal from "./JournalViewModal";
 import type { ModalOptions } from "../types";
 import type { AddHabitatFormProps } from "./AddHabitatForm";
 import type { AddUpdateHabitatFormProps } from "./AddUpdateHabitatForm";
 import type { AddSpeciesFormProps } from "./CreateUpdateSpeciesForm";
 import type { UsersCreateUpdateFormProps } from "./UsersCreateUpdateForm";
+import type { JournalViewModalProps } from "./JournalViewModal";
 import { modalBaseStyles } from "../styles/modalStyles";
 import { combineClassNames } from "../util";
 
@@ -16,9 +18,8 @@ type ModalFormProps =
   | AddUpdateHabitatFormProps
   | AddSpeciesFormProps
   | UsersCreateUpdateFormProps
+  | JournalViewModalProps
   | undefined;
-
-Modal.setAppElement("#root");
 
 function ModalComponent({ content, ...modalProps }: ModalOptions) {
   const overlayStyles = `
@@ -53,6 +54,7 @@ function ModalComponent({ content, ...modalProps }: ModalOptions) {
     updateSpecies: "Update Species",
     addUser: "Add User",
     updateUser: "Update User",
+    viewJournal: "Journal",
   };
 
   const contentLabel = content ? modalLabels[content] : "Modal";
@@ -69,13 +71,15 @@ function ModalComponent({ content, ...modalProps }: ModalOptions) {
       case "addUser":
       case "updateUser":
         return <UsersCreateUpdateForm {...modalProps} />;
+      case "viewJournal":
+        return <JournalViewModal {...modalProps} />;
       default:
         return null;
     }
   };
 
   return (
-    <Modal
+    <SharedModal
       isOpen={!!content}
       onRequestClose={modalProps.onSuccess}
       contentLabel={contentLabel}
@@ -83,7 +87,7 @@ function ModalComponent({ content, ...modalProps }: ModalOptions) {
       overlayClassName={overlayStyles}
     >
       {ContentComponent(modalProps as ModalFormProps)}
-    </Modal>
+    </SharedModal>
   );
 }
 

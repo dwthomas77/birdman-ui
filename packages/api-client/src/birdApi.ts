@@ -1,5 +1,7 @@
 import type {
+  Bird,
   Habitat,
+  Journal,
   HabitatRequest,
   Species,
   SpeciesCreate,
@@ -10,6 +12,7 @@ import type { ApiClient } from "./client";
 
 export function createBirdApi(apiClient: ApiClient) {
   return {
+    getBird: () => apiClient.get<Bird>("/bird"),
     getHabitats: () => apiClient.get<Habitat[]>("/habitats"),
     getHabitat: (habitatId: string) =>
       apiClient.get<Habitat>(`/habitats/${encodeURIComponent(habitatId)}`),
@@ -51,6 +54,13 @@ export function createBirdApi(apiClient: ApiClient) {
     async deleteUser(userId: string): Promise<string> {
       await apiClient.delete(`/users/${encodeURIComponent(userId)}`);
       return `Successfully deleted user with id: ${userId}`;
+    },
+    getJournals: () => apiClient.get<Journal[]>("/journals"),
+    getJournal: (journalId: string) =>
+      apiClient.get<Journal>(`/journals/${encodeURIComponent(journalId)}`),
+    async deleteJournal(journalId: string): Promise<string> {
+      await apiClient.delete(`/journals/${encodeURIComponent(journalId)}`);
+      return `Successfully deleted journal with id: ${journalId}`;
     },
   };
 }

@@ -1,12 +1,18 @@
 import type { FromSchema } from "json-schema-to-ts";
 import { CreateSpeciesSchema, ReadSpeciesSchema } from "./schemas/species.schema";
 import { UserRequestSchema, UserSchema } from "./schemas/user.schema";
-import { LocationSchema } from "./schemas/location.schema";
+import { JournalSchema } from "./schemas/journal.schema";
+import { ObservationSchema } from "./schemas/observation.schema";
 
 export type { FromSchema } from "json-schema-to-ts";
 export { CreateSpeciesSchema, ReadSpeciesSchema } from "./schemas/species.schema";
 export { UserRequestSchema, UserSchema } from "./schemas/user.schema";
 export { LocationSchema } from "./schemas/location.schema";
+export { BirdSchema } from "./schemas/bird.schema";
+export { JournalSchema } from "./schemas/journal.schema";
+export { ObservationSchema } from "./schemas/observation.schema";
+export type Journal = FromSchema<typeof JournalSchema>;
+export type Observation = FromSchema<typeof ObservationSchema>;
 
 export interface HabitatRequest {
   code: string;
@@ -24,6 +30,19 @@ export type SpeciesCreate = FromSchema<typeof CreateSpeciesSchema>;
 export type User = FromSchema<typeof UserSchema>;
 export type UserRequest = FromSchema<typeof UserRequestSchema>;
 export type Location = FromSchema<typeof LocationSchema>;
+
+export interface Bird {
+  birdId: string;
+  speciesId: string;
+  speciesName: string;
+  localeName: string;
+  genus: string;
+  family: string;
+  sex?: "male" | "female";
+  length?: number;
+  weight?: number;
+  wingspan?: number;
+}
 
 export interface ProblemDetailsResponse {
   type: string;
