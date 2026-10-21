@@ -1,0 +1,12 @@
+{
+  "name": "@birdman/shared-data",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts"
+    }
+  }
+}

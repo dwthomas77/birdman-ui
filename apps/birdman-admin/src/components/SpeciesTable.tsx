@@ -2,7 +2,7 @@ import { tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import type { Species } from "@birdman/shared-types";
-import { Button } from "./atomic";
+import { Button } from "@birdman/shared-ui";
 import { deleteSpecies, getSpecies } from "../services";
 import { useToast } from "./ToastProvider";
 import { tableStyles } from "../styles";
@@ -64,11 +64,11 @@ export default function SpeciesTable({
     },
 
     {
-      accessorKey: "genus",
+      accessorKey: "genus.name",
       header: () => "Genus",
     },
     {
-      accessorKey: "family", // accessorFn alternative with a custom id
+      accessorKey: "family.name", // accessorFn alternative with a custom id
       header: () => "Family",
     },
     {

@@ -23,3 +23,12 @@ export function combineClassNames(...classLists: Array<string | undefined | null
 
     return Array.from(classSet).join(" ");
 }
+
+const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "2-digit",
+});
+
+export function formatShortDate(date: string | Date): string {
+    return shortDateFormatter.format(new Date(date));
+}

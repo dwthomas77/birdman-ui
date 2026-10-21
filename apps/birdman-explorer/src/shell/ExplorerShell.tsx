@@ -1,12 +1,25 @@
 import { Link, Outlet } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { DropdownSelect } from "@birdman/shared-ui";
+import type { User } from "@birdman/shared-types";
+import { getUsers } from "../api/birdApi";
+import { useUser } from "../context/user.context";
 
 const navigationItems = [
   { label: "Habitats", to: "/habitats" },
   { label: "Species", to: "/species" },
   { label: "Go Birding", to: "/go-birding" },
+  { label: "Birders", to: "/birders" },
+  { label: "Birding Home", to: "/birding-home" },
 ] as const;
 
 export default function ExplorerShell() {
+  const { user, setUser } = useUser();
+  const { data: users = [] } = useQuery<User[]>({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <header className="border-b border-slate-800 bg-slate-900/90">
@@ -30,6 +43,19 @@ export default function ExplorerShell() {
               </Link>
             ))}
           </nav>
+          <div className="w-56">
+            <DropdownSelect
+              data={users}
+              dataId="userId"
+              inputId="shell-user-select"
+              selectedId={user?.userId}
+              getOptionLabel={(u) => u.displayName}
+              placeholder="Select a birder"
+              onSelect={(userId) =>
+                setUser(users.find((u) => u.userId === userId) ?? null)
+              }
+            />
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-6xl px-6 py-8">

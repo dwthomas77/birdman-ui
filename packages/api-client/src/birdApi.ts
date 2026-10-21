@@ -2,20 +2,49 @@ import type {
   Bird,
   Habitat,
   Journal,
-  JournalCreate,
   JournalRequest,
+  JournalSummary,
+  Observation,
+  ObservationRequest,
   HabitatRequest,
   Species,
   SpeciesCreate,
+  SpeciesSummary,
   User,
   UserRequest,
 } from "@birdman/shared-types";
 import type { ApiClient } from "./client";
 
+export interface BirdFilters {
+  habitatId?: string;
+}
+
+export interface HabitatFilters {
+  level?: number;
+  parentId?: string;
+}
+
 export function createBirdApi(apiClient: ApiClient) {
   return {
-    getBird: () => apiClient.get<Bird>("/bird"),
-    getHabitats: () => apiClient.get<Habitat[]>("/habitats"),
+    getBird: (filters: BirdFilters = {}) => {
+      const params = new URLSearchParams();
+      if (filters.habitatId !== undefined) {
+        params.set("habitatId", filters.habitatId);
+      }
+      const query = params.toString();
+      return apiClient.get<Bird>(`/bird${query ? `?${query}` : ""}`);
+    },
+    getHabitats: (filters: HabitatFilters = {}) => {
+      const params = new URLSearchParams();
+      if (filters.level !== undefined) {
+        params.set("level", String(filters.level));
+      }
+      if (filters.parentId !== undefined) {
+        params.set("parentId", filters.parentId);
+      }
+      const query = params.toString();
+      return apiClient.get<Habitat[]>(`/habitats${query ? `?${query}` : ""}`);
+    },
     getHabitat: (habitatId: string) =>
       apiClient.get<Habitat>(`/habitats/${encodeURIComponent(habitatId)}`),
     createHabitat: (data: HabitatRequest) =>
@@ -29,9 +58,9 @@ export function createBirdApi(apiClient: ApiClient) {
       await apiClient.delete(`/habitats/${encodeURIComponent(habitatId)}`);
       return `Successfully deleted habitat with id: ${habitatId}`;
     },
-    getSpecies: () => apiClient.get<Species[]>("/species"),
+    getSpecies: () => apiClient.get<SpeciesSummary[]>("/species"),
     getSpeciesById: (speciesId: string) =>
-      apiClient.get<Species>(`/species/${encodeURIComponent(speciesId)}`),
+      apiClient.get<SpeciesSummary>(`/species/${encodeURIComponent(speciesId)}`),
     createSpecies: (data: SpeciesCreate) =>
       apiClient.post<Species, SpeciesCreate>("/species", data),
     updateSpecies: (data: SpeciesCreate, speciesId: string) =>
@@ -57,22 +86,21 @@ export function createBirdApi(apiClient: ApiClient) {
       await apiClient.delete(`/users/${encodeURIComponent(userId)}`);
       return `Successfully deleted user with id: ${userId}`;
     },
-    getJournals: () => apiClient.get<Journal[]>("/journals"),
+    getJournals: () => apiClient.get<JournalSummary[]>("/journals"),
     getJournalsByUserId: (userId: string) =>
       apiClient.get<Journal[]>(`/journals?userId=${encodeURIComponent(userId)}`),
-    createJournal(data: JournalCreate) {
-      const now = new Date().toISOString();
-      return apiClient.post<Journal, JournalRequest>("/journals", {
-        ...data,
-        createdAt: now,
-        updatedAt: now,
-      });
+    createJournal(data: JournalRequest) {
+      return apiClient.post<Journal, JournalRequest>("/journals", data);
     },
     getJournal: (journalId: string) =>
-      apiClient.get<Journal>(`/journals/${encodeURIComponent(journalId)}`),
+      apiClient.get<JournalSummary>(`/journals/${encodeURIComponent(journalId)}`),
     async deleteJournal(journalId: string): Promise<string> {
       await apiClient.delete(`/journals/${encodeURIComponent(journalId)}`);
       return `Successfully deleted journal with id: ${journalId}`;
     },
+    createObservation: (data: ObservationRequest) =>
+      apiClient.post<Observation, ObservationRequest>("/observations", data),
+    getObservationsByJournalId: (journalId: string) =>
+      apiClient.get<Observation[]>(`/observations?journalId=${encodeURIComponent(journalId)}`),
   };
 }

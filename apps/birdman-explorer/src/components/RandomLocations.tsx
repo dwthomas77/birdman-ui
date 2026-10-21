@@ -16,7 +16,7 @@ export default function RandomLocations({
 }: RandomLocationsProps) {
   const { data, isFetching, error, refetch } = useQuery<Location[]>({
     queryKey: ["random-locations", userId],
-    queryFn: () => getRandomLocations({ count: 3 }),
+    queryFn: () => getRandomLocations({ count: 3, level: 1 }),
     staleTime: Infinity,
   });
 
@@ -58,7 +58,7 @@ export default function RandomLocations({
                 }`}
               >
                 <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
-                  Location
+                  Location 
                 </p>
                 <h3 className="mt-2 text-xl font-semibold capitalize text-white">
                   {location.name}

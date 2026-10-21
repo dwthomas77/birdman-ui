@@ -91,8 +91,8 @@ test("species can be created, updated, and deleted", async ({ page }) => {
 
   const dialog = page.getByRole("dialog", { name: "Add Species" });
   await dialog.getByLabel(/Species Name/).fill("American Robin");
-  await dialog.getByLabel(/Family/).fill("Turdidae");
-  await dialog.getByLabel(/Genus/).fill("Turdus");
+  await dialog.getByLabel(/Family/).selectOption("turdidae");
+  await dialog.getByLabel(/Genus/).selectOption("turdus");
   await dialog.getByLabel(/Locale Name/).fill("Robin");
   await dialog.getByLabel(/Length Min/).fill("20");
   await dialog.getByLabel(/Length Max/).fill("25");
@@ -113,8 +113,8 @@ test("species can be created, updated, and deleted", async ({ page }) => {
     )?.body,
   ).toMatchObject({
     speciesName: "American Robin",
-    family: "Turdidae",
-    genus: "Turdus",
+    family: "turdidae",
+    genus: "turdus",
     localeName: "Robin",
   });
 
@@ -123,6 +123,8 @@ test("species can be created, updated, and deleted", async ({ page }) => {
   await expect(updateDialog.getByLabel(/Species Name/)).toHaveValue(
     "American Robin",
   );
+  await expect(updateDialog.getByLabel(/Family/)).toHaveValue("turdidae");
+  await expect(updateDialog.getByLabel(/Genus/)).toHaveValue("turdus");
   await updateDialog.getByLabel(/Locale Name/).fill("North American Robin");
   await updateDialog.getByRole("button", { name: "Save" }).click();
 

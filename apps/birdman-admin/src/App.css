@@ -1,6 +1,7 @@
 
 /* app.css */
 @import "tailwindcss";
+@source "../../../packages/shared-ui/src";
 
 :root {
   --bg-color: lightblue;

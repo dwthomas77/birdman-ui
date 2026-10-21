@@ -1,5 +1,4 @@
-import { TextInput, Button } from "./atomic";
-import { LoadingSpinner } from "@birdman/shared-ui";
+import { TextInput, Button, LoadingSpinner } from "@birdman/shared-ui";
 import type { Habitat, HabitatRequest } from "@birdman/shared-types";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { getHabitat, getHabitats, putHabitat } from "../services";
@@ -40,7 +39,7 @@ export default function AddUpdateHabitatForm({
   });
   const { data: habitats = [] } = useQuery<Habitat[]>({
     queryKey: ["habitats"],
-    queryFn: getHabitats,
+    queryFn: () => getHabitats(),
   });
 
   const { isLoading, error, data: habitat } = habitatQuery;

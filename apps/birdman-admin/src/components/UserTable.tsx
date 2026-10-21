@@ -2,7 +2,7 @@ import { tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { User } from "@birdman/shared-types";
-import { Button } from "./atomic";
+import { Button } from "@birdman/shared-ui";
 import { deleteUser, getUsers } from "../services";
 import { useToast } from "./ToastProvider";
 import { tableStyles } from "../styles";

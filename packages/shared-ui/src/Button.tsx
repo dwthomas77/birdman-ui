@@ -1,6 +1,12 @@
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  children: React.ReactNode;
-  onClickHandler?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+import type {
+  ButtonHTMLAttributes,
+  MouseEventHandler,
+  ReactNode,
+} from "react";
+
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  children: ReactNode;
+  onClickHandler?: MouseEventHandler<HTMLButtonElement>;
   buttonSize?: "small"| "large";
   variant?: "primary" | "tertiary";
 };

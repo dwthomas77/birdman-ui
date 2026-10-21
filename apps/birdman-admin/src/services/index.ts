@@ -19,4 +19,5 @@ export {
   getJournals,
   getJournal,
   deleteJournal,
+  getObservationsByJournalId,
 } from "./birdApi";

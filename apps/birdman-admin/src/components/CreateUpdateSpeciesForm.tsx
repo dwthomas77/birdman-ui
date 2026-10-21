@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { TextInput, Button } from "./atomic";
-import { LoadingSpinner } from "@birdman/shared-ui";
-import type { Species, SpeciesCreate, Habitat } from "@birdman/shared-types";
+import { TextInput, Button, DropdownSelect, LoadingSpinner } from "@birdman/shared-ui";
+import type { Species, SpeciesCreate, Habitat, SpeciesSummary } from "@birdman/shared-types";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { taxonData } from "@birdman/shared-data";
+
 import {
   createSpecies,
   getHabitats,
@@ -18,8 +19,7 @@ import HabitatsChecklist from "./HabitatsChecklist";
 
 const initialDefaultFormValues: SpeciesCreate = {
   speciesName: "",
-  family: "",
-  genus: "",
+  genusId: "",
   localeName: "",
   lengthMin: 0,
   lengthMax: 0,
@@ -30,6 +30,7 @@ const initialDefaultFormValues: SpeciesCreate = {
   habitats: [],
 };
 
+const { genera } = taxonData;
 export interface AddSpeciesFormProps {
   onSuccess?: () => void;
   mode?: "add" | "update";
@@ -57,7 +58,7 @@ export default function CreateAddSpeciesForm({
   });
   const queryClient = useQueryClient();
 
-  const speciesQuery = useQuery({
+  const speciesQuery = useQuery<SpeciesSummary>({
     queryKey: ["species", updateSpeciesId],
     queryFn: async () => {
       try {
@@ -153,8 +154,7 @@ export default function CreateAddSpeciesForm({
     mode === "update" && species
       ? {
           speciesName: species.speciesName,
-          family: species.family,
-          genus: species.genus,
+          genusId: species.genus.genusId,
           localeName: species.localeName,
           lengthMin: species.lengthMin,
           lengthMax: species.lengthMax,
@@ -228,6 +228,7 @@ export default function CreateAddSpeciesForm({
           {(renderProps) => {
             const { values, errors, setValue, isSubmitting } = renderProps;
             const formError = errors.form || false;
+            
             return (
               <>
                 {formError && (
@@ -255,21 +256,16 @@ export default function CreateAddSpeciesForm({
                         }
                         errorMessage={errors.speciesName || undefined}
                       />
-                      <TextInput
-                        inputId="family"
-                        label="Family"
-                        required={true}
-                        value={values.family}
-                        onChangeHandler={(value) => setValue("family", value)}
-                        errorMessage={errors.family || undefined}
-                      />
-                      <TextInput
-                        inputId="genus"
+                      <DropdownSelect
+                        inputId="genusId"
                         label="Genus"
                         required={true}
-                        value={values.genus}
-                        onChangeHandler={(value) => setValue("genus", value)}
-                        errorMessage={errors.genus || undefined}
+                        data={genera}
+                        dataId="taxonId"
+                        selectedId={values.genusId}
+                        onSelect={(genusId) => setValue("genusId", genusId)}
+                        getOptionLabel={(genus) => genus.name}
+                        errorMessage={errors.genusId || undefined}
                       />
                       <TextInput
                         inputId="localeName"

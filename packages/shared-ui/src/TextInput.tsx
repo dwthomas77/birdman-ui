@@ -1,6 +1,6 @@
-import { disabledInputStyles } from "../../styles/formStyles";
+import type { ChangeEvent } from "react";
 
-interface TextInputProps {
+export interface TextInputProps {
   inputId: string;
   label: string;
   required?: boolean;
@@ -10,7 +10,11 @@ interface TextInputProps {
   onChangeHandler?: (value: string) => void;
   disabled?: boolean;
   numericOnly?: boolean;
+  readonly?: boolean;
 }
+
+const disabledInputStyles =
+  "bg-gray-800 border border-gray-700 text-gray-400 placeholder:text-gray-500 cursor-not-allowed opacity-75 rounded-md px-3 py-2";
 
 const sanitizeNumericInput = (value: string): string => {
   // Keep only digits and periods
@@ -45,6 +49,7 @@ export default function TextInput(props: TextInputProps) {
     onChangeHandler = () => {},
     disabled = false,
     numericOnly = false,
+    readonly = false,
   } = props;
 
   const styles = `
@@ -61,7 +66,7 @@ export default function TextInput(props: TextInputProps) {
     focus:border-zinc-500
     focus:outline-none`;
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!numericOnly) {
       onChangeHandler(event.target.value);
       return;
@@ -85,6 +90,7 @@ export default function TextInput(props: TextInputProps) {
         onChange={handleChange}
         className={`${styles} ${disabled ? disabledInputStyles : ""}`}
         disabled={disabled}
+        readOnly={readonly}
       />
       {errorMessage && (
         <span className="text-red-400 text-sm pl-1">{errorMessage}</span>

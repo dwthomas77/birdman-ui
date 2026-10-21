@@ -22,6 +22,7 @@ export const {
   getJournals,
   getJournal,
   deleteJournal,
+  getObservationsByJournalId,
 } = birdApi;
 
 export const postHabitat = birdApi.createHabitat;

@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BirdersRouteImport } from './routes/birders'
+import { Route as BirdingHomeRouteImport } from './routes/birding-home'
 import { Route as GoBirdingRouteImport } from './routes/go-birding'
 import { Route as HabitatsIndexRouteImport } from './routes/habitats/index'
 import { Route as HabitatsHabitatIdRouteImport } from './routes/habitats/$habitatId'
@@ -19,6 +21,16 @@ import { Route as SpeciesSpeciesIdRouteImport } from './routes/species/$speciesI
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BirdersRoute = BirdersRouteImport.update({
+  id: '/birders',
+  path: '/birders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BirdingHomeRoute = BirdingHomeRouteImport.update({
+  id: '/birding-home',
+  path: '/birding-home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoBirdingRoute = GoBirdingRouteImport.update({
@@ -49,6 +61,8 @@ const SpeciesSpeciesIdRoute = SpeciesSpeciesIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/birders': typeof BirdersRoute
+  '/birding-home': typeof BirdingHomeRoute
   '/go-birding': typeof GoBirdingRoute
   '/habitats/$habitatId': typeof HabitatsHabitatIdRoute
   '/species/$speciesId': typeof SpeciesSpeciesIdRoute
@@ -57,6 +71,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/birders': typeof BirdersRoute
+  '/birding-home': typeof BirdingHomeRoute
   '/go-birding': typeof GoBirdingRoute
   '/habitats/$habitatId': typeof HabitatsHabitatIdRoute
   '/species/$speciesId': typeof SpeciesSpeciesIdRoute
@@ -66,6 +82,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/birders': typeof BirdersRoute
+  '/birding-home': typeof BirdingHomeRoute
   '/go-birding': typeof GoBirdingRoute
   '/habitats/$habitatId': typeof HabitatsHabitatIdRoute
   '/species/$speciesId': typeof SpeciesSpeciesIdRoute
@@ -76,6 +94,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/birders'
+    | '/birding-home'
     | '/go-birding'
     | '/habitats/$habitatId'
     | '/species/$speciesId'
@@ -84,6 +104,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/birders'
+    | '/birding-home'
     | '/go-birding'
     | '/habitats/$habitatId'
     | '/species/$speciesId'
@@ -92,6 +114,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/birders'
+    | '/birding-home'
     | '/go-birding'
     | '/habitats/$habitatId'
     | '/species/$speciesId'
@@ -101,6 +125,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BirdersRoute: typeof BirdersRoute
+  BirdingHomeRoute: typeof BirdingHomeRoute
   GoBirdingRoute: typeof GoBirdingRoute
   HabitatsHabitatIdRoute: typeof HabitatsHabitatIdRoute
   SpeciesSpeciesIdRoute: typeof SpeciesSpeciesIdRoute
@@ -115,6 +141,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/birders': {
+      id: '/birders'
+      path: '/birders'
+      fullPath: '/birders'
+      preLoaderRoute: typeof BirdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/birding-home': {
+      id: '/birding-home'
+      path: '/birding-home'
+      fullPath: '/birding-home'
+      preLoaderRoute: typeof BirdingHomeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/go-birding': {
@@ -157,6 +197,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BirdersRoute: BirdersRoute,
+  BirdingHomeRoute: BirdingHomeRoute,
   GoBirdingRoute: GoBirdingRoute,
   HabitatsHabitatIdRoute: HabitatsHabitatIdRoute,
   SpeciesSpeciesIdRoute: SpeciesSpeciesIdRoute,

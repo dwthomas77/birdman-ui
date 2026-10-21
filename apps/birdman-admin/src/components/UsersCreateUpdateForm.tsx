@@ -5,8 +5,7 @@ import { Form } from "./controllers/FormController";
 import type { FormApi } from "./controllers/FormController";
 import { ApiError } from "@birdman/shared-types";
 import { useToast } from "./ToastProvider";
-import { Button, TextInput } from "./atomic";
-import { LoadingSpinner } from "@birdman/shared-ui";
+import { Button, LoadingSpinner, TextInput } from "@birdman/shared-ui";
 import { formErrorMessage } from "../styles/formStyles";
 
 const initialFormValues: UserRequest = {

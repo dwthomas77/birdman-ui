@@ -1,13 +1,16 @@
 import { schemaId } from "./ids.js";
 const baseJournalProperties = {
-  "userId": { type: "string" },
-  "name": { type: "string" },
-  "description": { type: "string" },
-  "createdAt": { type: "string", format: "date-time" },
-  "updatedAt": { type: "string", format: "date-time" },
+  userId: { type: "string" },
+  name: { type: "string" },
+  description: { type: "string" },
 } as const;
 
-const requiredJournalProperties = ["userId", "name", "createdAt", "updatedAt"] as const;
+const requiredJournalProperties = [
+  "userId",
+  "name",
+  "createdAt",
+  "updatedAt",
+] as const;
 
 export const JournalSchema = {
   $id: schemaId("journal"),
@@ -16,10 +19,12 @@ export const JournalSchema = {
   type: "object",
   properties: {
     ...baseJournalProperties,
-    "journalId": { type: "string" },
+    journalId: { type: "string" },
+    createdAt: { type: "string", format: "date-time" },
+    updatedAt: { type: "string", format: "date-time" },
   },
-  "required": ["journalId", ...requiredJournalProperties],
-  "additionalProperties": false
+  required: ["journalId", ...requiredJournalProperties],
+  additionalProperties: false,
 } as const;
 
 export const JournalRequestSchema = {
@@ -30,6 +35,26 @@ export const JournalRequestSchema = {
   properties: {
     ...baseJournalProperties,
   },
-  "required": requiredJournalProperties,
-  "additionalProperties": false
+  required: requiredJournalProperties,
+  additionalProperties: false,
+} as const;
+
+export const JournalSummarySchema = {
+  $id: schemaId("journal/summary"),
+  title: "Journal Summary",
+  description: "A summary of a journal of bird observations",
+  type: "object",
+  properties: {
+    "journalId": { type: "string" },
+    "name": { type: "string" },
+    "description": { type: "string" },
+    "createdAt": { type: "string", format: "date-time" },
+    "updatedAt": { type: "string", format: "date-time" },
+    "owner": { type: "object", properties: {
+      "userId": { type: "string" },
+      "displayName": { type: "string" }
+    }},
+    "entryCount": { type: "integer" }
+  },
+  "required": ["journalId", "name", "createdAt", "updatedAt", "owner", "entryCount"],
 } as const;

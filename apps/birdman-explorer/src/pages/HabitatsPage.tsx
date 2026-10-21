@@ -7,7 +7,7 @@ import { getHabitats } from "../api/birdApi";
 export default function HabitatsPage() {
   const { data: habitats = [], isPending, error } = useQuery<Habitat[]>({
     queryKey: ["habitats"],
-    queryFn: getHabitats,
+    queryFn: () => getHabitats(),
   });
 
   return (

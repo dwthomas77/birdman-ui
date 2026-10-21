@@ -6,10 +6,12 @@ import { getJournalsByUserId, getUsers } from "../api/birdApi";
 import CreateJournalContent from "../components/CreateJournalContent";
 import ObserveBirdContent from "../components/ObserveBirdContent";
 import RandomLocations from "../components/RandomLocations";
+import { useUser } from "../context/user.context";
 
 export default function GoBirdingPage() {
+  const { user, setUser } = useUser();
   const [selectedUserId, setSelectedUserId] = useState<string | undefined>(
-    undefined,
+    user?.userId,
   );
   const [selectedJournalId, setSelectedJournalId] = useState<
     string | undefined
@@ -57,7 +59,13 @@ export default function GoBirdingPage() {
               id="birder-select"
               value={selectedUserId ?? ""}
               onChange={(event) => {
-                setSelectedUserId(event.target.value || undefined);
+                const userId = event.target.value;
+
+                setSelectedUserId(userId || undefined);
+                setUser(
+                  users.find((availableUser) => availableUser.userId === userId) ??
+                    null,
+                );
                 setSelectedJournalId(undefined);
                 setActiveLocation(undefined);
               }}
@@ -176,7 +184,14 @@ export default function GoBirdingPage() {
             Close
           </button>
         </div>
-        <ObserveBirdContent />
+        {selectedJournalId && activeLocation && (
+          <ObserveBirdContent
+            journalId={selectedJournalId}
+            habitatId={activeLocation.habitatId}
+            locationName={activeLocation.name}
+            onClose={() => setIsObserveModalOpen(false)}
+          />
+        )}
       </Modal>
     </section>
   );

@@ -1,4 +1,4 @@
-import type { Habitat, Location } from "@birdman/shared-types";
+import type { Location } from "@birdman/shared-types";
 import { getHabitats } from "../api/birdApi";
 
 export interface RandomLocationsOptions {
@@ -30,32 +30,6 @@ const adjectives = [
   "windswept",
 ];
 
-function getHabitatLevel(
-  habitat: Habitat,
-  habitatsById: Map<string, Habitat>,
-): number {
-  let level = 1;
-  let parentId = habitat.parentHabitatId;
-  const visited = new Set([habitat.habitatId]);
-
-  while (parentId) {
-    if (visited.has(parentId)) {
-      throw new Error(`Habitat hierarchy contains a cycle at ${parentId}.`);
-    }
-
-    visited.add(parentId);
-    const parent = habitatsById.get(parentId);
-    if (!parent) {
-      break;
-    }
-
-    level += 1;
-    parentId = parent.parentHabitatId;
-  }
-
-  return level;
-}
-
 export async function getRandomLocations({
   count = 10,
   level,
@@ -68,16 +42,7 @@ export async function getRandomLocations({
     throw new RangeError("level must be a positive integer.");
   }
 
-  const habitats = await getHabitats();
-  const habitatsById = new Map(
-    habitats.map((habitat) => [habitat.habitatId, habitat]),
-  );
-  const eligibleHabitats = habitats.filter(
-    (habitat) =>
-      (parentId === undefined || habitat.parentHabitatId === parentId) &&
-      (level === undefined ||
-        getHabitatLevel(habitat, habitatsById) === level),
-  );
+  const eligibleHabitats = await getHabitats({ level, parentId });
 
   if (count > 0 && eligibleHabitats.length === 0) {
     throw new Error("No habitats match the requested filters.");

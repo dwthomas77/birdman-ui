@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import type { Species } from "@birdman/shared-types";
-import { Button } from "./atomic";
+import { Button } from "@birdman/shared-ui";
 import { deleteSpecies, getSpecies } from "../services";
 import { useToast } from "./ToastProvider";
 

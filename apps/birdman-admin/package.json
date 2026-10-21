@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@birdman/api-client": "*",
+    "@birdman/shared-data": "*",
     "@birdman/shared-types": "*",
     "@birdman/shared-ui": "*",
     "@tanstack/react-query": "^5.101.1",

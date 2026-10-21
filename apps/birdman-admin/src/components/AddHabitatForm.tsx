@@ -1,4 +1,4 @@
-import { TextInput, Button } from "./atomic";
+import { TextInput, Button } from "@birdman/shared-ui";
 import type { Habitat, HabitatRequest } from "@birdman/shared-types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getHabitats, postHabitat } from "../services";
@@ -25,7 +25,7 @@ export default function AddHabitatForm({ onSuccess }: AddHabitatFormProps) {
   const queryClient = useQueryClient();
   const { data: habitats = [] } = useQuery<Habitat[]>({
     queryKey: ["habitats"],
-    queryFn: getHabitats,
+    queryFn: () => getHabitats(),
   });
 
   const handleSubmit = async (values: HabitatRequest, formApi: FormApi<HabitatRequest>) => {

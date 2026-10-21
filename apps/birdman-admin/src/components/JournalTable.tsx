@@ -1,8 +1,8 @@
 import { tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { Journal } from "@birdman/shared-types";
-import { Button } from "./atomic";
+import type { JournalSummary } from "@birdman/shared-types";
+import { Button } from "@birdman/shared-ui";
 import { deleteJournal, getJournals } from "../services";
 import { useToast } from "./ToastProvider";
 import { tableStyles } from "../styles";
@@ -11,10 +11,20 @@ interface JournalTableProps {
   viewJournalClickHandler: (journalId: string) => void;
 }
 
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+function formatDate(timestamp: string) {
+  return dateFormatter.format(new Date(timestamp));
+}
+
 export default function JournalTable({
   viewJournalClickHandler,
 }: JournalTableProps) {
-  const { data: journals = [], isPending, error } = useQuery<Journal[]>({
+  const { data: journals = [], isPending, error } = useQuery<JournalSummary[]>({
     queryKey: ["journals"],
     queryFn: getJournals,
   });
@@ -38,18 +48,28 @@ export default function JournalTable({
     },
   });
   const features = tableFeatures({});
-  const columns: Array<ColumnDef<typeof features, Journal>> = [
+  const columns: Array<ColumnDef<typeof features, JournalSummary>> = [
     {
-      accessorKey: "journalId",
-      header: () => "Journal ID",
+      accessorKey: "owner.displayName",
+      header: () => "Owner",
     },
     {
       accessorKey: "name",
       header: () => "Name",
     },
     {
-      accessorKey: "userId",
-      header: () => "User ID",
+      accessorKey: "entryCount",
+      header: () => "Entry Count",
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => "Created At",
+      cell: (info) => formatDate(info.getValue<string>()),
+    },
+    {
+      accessorKey: "updatedAt",
+      header: () => "Updated At",
+      cell: (info) => formatDate(info.getValue<string>()),
     },
     {
       id: "view",

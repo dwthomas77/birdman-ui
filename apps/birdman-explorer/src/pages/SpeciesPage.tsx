@@ -1,11 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Card, LoadingSpinner } from "@birdman/shared-ui";
-import type { Species } from "@birdman/shared-types";
+import type { SpeciesSummary } from "@birdman/shared-types";
 import { getSpecies } from "../api/birdApi";
 
 export default function SpeciesPage() {
-  const { data: species = [], isPending, error } = useQuery<Species[]>({
+  const { data: species = [], isPending, error } = useQuery<SpeciesSummary[]>({
     queryKey: ["species"],
     queryFn: getSpecies,
   });
@@ -42,13 +42,13 @@ export default function SpeciesPage() {
                 className="block"
               >
                 <p className="text-xs font-semibold uppercase tracking-wider text-emerald-300">
-                  {bird.family}
+                  {bird.family.name}
                 </p>
                 <h2 className="mt-2 text-xl font-semibold text-white">
                   {bird.localeName}
                 </h2>
                 <p className="mt-1 italic text-slate-300">{bird.speciesName}</p>
-                <p className="mt-3 text-sm text-slate-400">Genus {bird.genus}</p>
+                <p className="mt-3 text-sm text-slate-400">Genus {bird.genus.name}</p>
               </Link>
             </Card>
           ))}

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Journal } from "@birdman/shared-types";
+import type { Journal, JournalRequest } from "@birdman/shared-types";
 import { createJournal } from "../api/birdApi";
 
 interface CreateJournalContentProps {
@@ -32,7 +32,7 @@ export default function CreateJournalContent({
       userId,
       name: name.trim(),
       ...(description.trim() && { description: description.trim() }),
-    });
+    } as JournalRequest);
   };
 
   return (

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import type { Journal } from "@birdman/shared-types";
-import { LoadingSpinner } from "@birdman/shared-ui";
-import { Button } from "./atomic";
-import { getJournal } from "../services";
+import type { JournalSummary } from "@birdman/shared-types";
+import { Button, LoadingSpinner } from "@birdman/shared-ui";
+import { getJournal, getObservationsByJournalId } from "../services";
+import { formatShortDate } from "../util";
 
 export interface JournalViewModalProps {
   onSuccess?: () => void;
@@ -13,9 +13,15 @@ export default function JournalViewModal({
   onSuccess,
   journalId,
 }: JournalViewModalProps) {
-  const { data: journal, isPending, error } = useQuery<Journal>({
+  const { data: journal, isPending, error } = useQuery<JournalSummary>({
     queryKey: ["journals", journalId],
     queryFn: () => getJournal(journalId as string),
+    enabled: !!journalId,
+  });
+
+  const { data: observations = [] } = useQuery({
+    queryKey: ["observations", journalId],
+    queryFn: () => getObservationsByJournalId(journalId as string),
     enabled: !!journalId,
   });
 
@@ -28,26 +34,26 @@ export default function JournalViewModal({
     );
   }
 
-  const fields: Array<[string, string]> = [
-    ["Journal ID", journal.journalId],
-    ["User ID", journal.userId],
-    ["Name", journal.name],
-    ["Description", journal.description ?? ""],
-    ["Created", new Date(journal.createdAt).toLocaleString()],
-    ["Updated", new Date(journal.updatedAt).toLocaleString()],
-  ];
 
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="text-lg font-semibold">Journal</h2>
-      <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
-        {fields.map(([label, value]) => (
-          <div key={label} className="contents">
-            <dt className="text-gray-400">{label}</dt>
-            <dd>{value || "—"}</dd>
-          </div>
+    <div className="flex flex-col gap-3 w-[600px]">
+      <h2 className="text-lg font-semibold">{journal.name}</h2>
+      {journal.description && (
+        <p className="text-sm text-slate-300">{journal.description}</p>
+      )}
+      <div>Owned by: {journal.owner.displayName}</div>
+      <div>Last Updated: {formatShortDate(journal.updatedAt)}</div>
+      <h3 className="text-md font-semibold">Observations</h3>
+      <ul className="list-none flex-1">
+        {observations.map((observation) => (
+          <li key={observation.observationId} className="flex items-top justify-between w-full">
+            <span className="flex-1">{observation.bird.localeName}</span>
+            <span className="flex-1">{observation.bird.speciesName}</span>
+            <span className="flex-1">{observation.location.name}</span>
+            <span>{formatShortDate(observation.observedAt)}</span>
+          </li>
         ))}
-      </dl>
+      </ul>
       <div className="flex justify-end">
         <Button buttonSize="small" onClick={onSuccess}>
           Close
