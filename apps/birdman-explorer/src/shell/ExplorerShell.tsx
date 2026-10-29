@@ -58,7 +58,7 @@ export default function ExplorerShell() {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="mx-auto">
         <Outlet />
       </main>
       <footer className="border-t border-slate-800 px-6 py-5 text-center text-sm text-slate-500">

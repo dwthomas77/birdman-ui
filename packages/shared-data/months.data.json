@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "name": "January",
+    "shortName": "Jan",
+    "firstDayId": 4,
+    "lastDate": 31,
+    "order": 1
+  },
+  {
+    "id": 2,
+    "name": "February",
+    "shortName": "Feb",
+    "firstDayId": 7,
+    "lastDate": 28,
+    "order": 2
+  },
+  {
+    "id": 3,
+    "name": "March",
+    "shortName": "Mar",
+    "firstDayId": 7,
+    "lastDate": 31,
+    "order": 3
+  },
+  {
+    "id": 4,
+    "name": "April",
+    "shortName": "Apr",
+    "firstDayId": 3,
+    "lastDate": 30,
+    "order": 4
+  },
+  {
+    "id": 5,
+    "name": "May",
+    "shortName": "May",
+    "firstDayId": 5,
+    "lastDate": 31,
+    "order": 5
+  },
+  {
+    "id": 6,
+    "name": "June",
+    "shortName": "Jun",
+    "firstDayId": 1,
+    "lastDate": 30,
+    "order": 6
+  },
+  {
+    "id": 7,
+    "name": "July",
+    "shortName": "Jul",
+    "firstDayId": 3,
+    "lastDate": 31,
+    "order": 7
+  },
+  {
+    "id": 8,
+    "name": "August",
+    "shortName": "Aug",
+    "firstDayId": 6,
+    "lastDate": 31,
+    "order": 8
+  },
+  {
+    "id": 9,
+    "name": "September",
+    "shortName": "Sep",
+    "firstDayId": 2,
+    "lastDate": 30,
+    "order": 9
+  },
+  {
+    "id": 10,
+    "name": "October",
+    "shortName": "Oct",
+    "firstDayId": 4,
+    "lastDate": 31,
+    "order": 10
+  },
+  {
+    "id": 11,
+    "name": "November",
+    "shortName": "Nov",
+    "firstDayId": 7,
+    "lastDate": 30,
+    "order": 11
+  },
+  {
+    "id": 12,
+    "name": "December",
+    "shortName": "Dec",
+    "firstDayId": 2,
+    "lastDate": 31,
+    "order": 12
+  }
+]

@@ -30,6 +30,14 @@ const adjectives = [
   "windswept",
 ];
 
+export function getHomeLocation(userName: string): Location {
+  const hardcodedHomeLocation: Location = {
+    habitatId: "b0041a8c-8f8d-497d-bf33-35ff67dae5a9",
+    name: `${userName}'s Backyard`,
+  };
+  return hardcodedHomeLocation;
+}
+
 export async function getRandomLocations({
   count = 10,
   level,

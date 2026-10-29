@@ -6,6 +6,9 @@ import { LocationSchema } from "./schemas/location.schema";
 import { BirdSchema } from "./schemas/bird.schema";
 import { HabitatSchema, HabitatRequestSchema } from "./schemas/habitat.schema";
 import type { SpeciesRequestSchema, SpeciesReadSchema, SpeciesSummarySchema } from "./schemas/species.schema";
+import type { WeekDay, DayId, Month, MonthId, CalendarDate } from "./date.types";
+
+
 
 export { SpeciesRequestSchema, SpeciesReadSchema } from "./schemas/species.schema";
 export { UserRequestSchema, UserSchema } from "./schemas/user.schema";
@@ -15,6 +18,7 @@ export { BirdSchema } from "./schemas/bird.schema";
 export { JournalSchema, JournalRequestSchema, JournalSummarySchema } from "./schemas/journal.schema";
 export { ObservationSchema, ObservationRequestSchema } from "./schemas/observation.schema";
 export type { FromSchema } from "json-schema-to-ts";
+export type { WeekDay, DayId, Month, MonthId, CalendarDate };
 export type Journal = FromSchema<typeof JournalSchema>;
 export type JournalRequest = FromSchema<typeof JournalRequestSchema>;
 export type JournalSummary = FromSchema<typeof JournalSummarySchema>;
