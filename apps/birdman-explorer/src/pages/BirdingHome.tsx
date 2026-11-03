@@ -87,7 +87,7 @@ const BirdingHome = () => {
 
       {/* Right Panel */}
       <div className="h-full w-[20%] min-w-[150px] max-w-[300px]">
-        <BirdingLocation currentLocation={currentLocation} currentDate={new Date(currentTimestamp)} />
+        <BirdingLocation currentLocation={currentLocation} currentDate={new Date(currentTimestamp)} onLocationChange={setCurrentLocation} />
       </div>
     </div>
   );
