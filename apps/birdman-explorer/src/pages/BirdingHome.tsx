@@ -7,13 +7,17 @@ import type { User } from "@birdman/shared-types";
 import { getHomeLocation } from "../services/locationService";
 import {
   HomeWindow,
+  ObservationWindow,
   Journals,
   BirdingLocation,
   CalendarClock,
 } from "../components/BirdingHome";
 
+type ActivityState = 'home' | 'journal' | 'observe';
+
 const BirdingHome = () => {
   const [activeJournalId, setActiveJournalId] = useState<string | null>(null);
+  const [activeActivity, setActiveActivity] = useState<ActivityState>('home');
   const [currentTimestamp, setCurrentTimestamp] = useState<string>(new Date().toISOString()); // ISO8601
   const { user, setUser } = useUser();
   console.log(user);
@@ -76,7 +80,15 @@ const BirdingHome = () => {
 
         <div className="min-h-0 flex-1 flex">
           <div className="flex-1 rounded-3xl border border-gray-700 h-full mt-2 p-2 bg-slate-950">
-            <HomeWindow user={user} />
+            {activeActivity === 'home' && <HomeWindow user={user} setActiveActivity={setActiveActivity} />}
+            {activeActivity === 'observe' && (
+              <ObservationWindow
+                currentLocation={currentLocation}
+                currentDate={new Date(currentTimestamp)}
+                activeJournalId={activeJournalId ? activeJournalId : ""}
+                user={user}
+              />
+            )}
           </div>
         </div>
 

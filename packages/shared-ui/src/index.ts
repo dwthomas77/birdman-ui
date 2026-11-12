@@ -13,3 +13,5 @@ export { default as FlexWidget } from "./FlexWidget";
 export type { FlexWidgetProps } from "./FlexWidget";
 export { default as TextInput } from "./TextInput";
 export type { TextInputProps } from "./TextInput";
+export { default as Stepper } from "./Stepper";
+export type { StepperProps } from "./Stepper";
