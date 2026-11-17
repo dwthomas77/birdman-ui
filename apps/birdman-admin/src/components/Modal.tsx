@@ -3,12 +3,14 @@ import AddHabitatForm from "./AddHabitatForm";
 import AddUpdateHabitatForm from "./AddUpdateHabitatForm";
 import CreateAddSpeciesForm from "./CreateUpdateSpeciesForm";
 import UsersCreateUpdateForm from "./UsersCreateUpdateForm";
+import ObservationGroupsCreateUpdateForm from "./ObservationGroupsCreateUpdateForm";
 import JournalViewModal from "./JournalViewModal";
 import type { ModalOptions } from "../types";
 import type { AddHabitatFormProps } from "./AddHabitatForm";
 import type { AddUpdateHabitatFormProps } from "./AddUpdateHabitatForm";
 import type { AddSpeciesFormProps } from "./CreateUpdateSpeciesForm";
 import type { UsersCreateUpdateFormProps } from "./UsersCreateUpdateForm";
+import type { ObservationGroupsCreateUpdateFormProps } from "./ObservationGroupsCreateUpdateForm";
 import type { JournalViewModalProps } from "./JournalViewModal";
 import { modalBaseStyles } from "../styles/modalStyles";
 import { combineClassNames } from "../util";
@@ -18,6 +20,7 @@ type ModalFormProps =
   | AddUpdateHabitatFormProps
   | AddSpeciesFormProps
   | UsersCreateUpdateFormProps
+  | ObservationGroupsCreateUpdateFormProps
   | JournalViewModalProps
   | undefined;
 
@@ -55,6 +58,8 @@ function ModalComponent({ content, ...modalProps }: ModalOptions) {
     addUser: "Add User",
     updateUser: "Update User",
     viewJournal: "Journal",
+    addObservationGroup: "Add Observation Group",
+    updateObservationGroup: "Update Observation Group",
   };
 
   const contentLabel = content ? modalLabels[content] : "Modal";
@@ -71,6 +76,9 @@ function ModalComponent({ content, ...modalProps }: ModalOptions) {
       case "addUser":
       case "updateUser":
         return <UsersCreateUpdateForm {...modalProps} />;
+      case "addObservationGroup":
+      case "updateObservationGroup":
+        return <ObservationGroupsCreateUpdateForm {...modalProps} />;
       case "viewJournal":
         return <JournalViewModal {...modalProps} />;
       default:

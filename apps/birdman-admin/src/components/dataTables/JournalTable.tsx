@@ -1,64 +1,86 @@
 import { tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { User } from "@birdman/shared-types";
+import type { JournalSummary } from "@birdman/shared-types";
 import { Button } from "@birdman/shared-ui";
-import { deleteUser, getUsers } from "../services";
-import { useToast } from "./ToastProvider";
-import { tableStyles } from "../styles";
+import { deleteJournal, getJournals } from "../../services";
+import { useToast } from "../ToastProvider";
+import { tableStyles } from "../../styles";
 
-interface UserTableProps {
-  addUserClickHandler: () => void;
-  updateUserClickHandler: (userId: string) => void;
+interface JournalTableProps {
+  viewJournalClickHandler: (journalId: string) => void;
 }
 
-export default function UserTable({
-  addUserClickHandler,
-  updateUserClickHandler,
-}: UserTableProps) {
-  const { data: users = [], isPending, error } = useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: getUsers,
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+
+function formatDate(timestamp: string) {
+  return dateFormatter.format(new Date(timestamp));
+}
+
+export default function JournalTable({
+  viewJournalClickHandler,
+}: JournalTableProps) {
+  const { data: journals = [], isPending, error } = useQuery<JournalSummary[]>({
+    queryKey: ["journals"],
+    queryFn: getJournals,
   });
   const queryClient = useQueryClient();
   const { addToast } = useToast();
-  const deleteUserMutation = useMutation<string, Error, string>({
-    mutationFn: deleteUser,
+  const deleteJournalMutation = useMutation<string, Error, string>({
+    mutationFn: deleteJournal,
     onSuccess: () => {
-      addToast("User deleted successfully.", {
+      addToast("Journal deleted successfully.", {
         type: "success",
         duration: 3500,
       });
-      queryClient.invalidateQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["journals"] });
     },
     onError: (deleteError) => {
-      console.error("Error deleting user:", deleteError);
-      addToast("Failed to delete user.", {
+      console.error("Error deleting journal:", deleteError);
+      addToast("Failed to delete journal.", {
         type: "error",
         duration: 3500,
       });
     },
   });
   const features = tableFeatures({});
-  const columns: Array<ColumnDef<typeof features, User>> = [
+  const columns: Array<ColumnDef<typeof features, JournalSummary>> = [
     {
-      accessorKey: "userId",
-      header: () => "User ID",
+      accessorKey: "owner.displayName",
+      header: () => "Owner",
     },
     {
-      accessorKey: "displayName",
-      header: () => "Display Name",
+      accessorKey: "name",
+      header: () => "Name",
     },
     {
-      id: "update",
-      header: () => "Update",
+      accessorKey: "entryCount",
+      header: () => "Entry Count",
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => "Created At",
+      cell: (info) => formatDate(info.getValue<string>()),
+    },
+    {
+      accessorKey: "updatedAt",
+      header: () => "Updated At",
+      cell: (info) => formatDate(info.getValue<string>()),
+    },
+    {
+      id: "view",
+      header: () => "View",
       cell: (info) => (
         <Button
           buttonSize="small"
           variant="tertiary"
-          onClick={() => updateUserClickHandler(info.row.original.userId)}
+          onClick={() => viewJournalClickHandler(info.row.original.journalId)}
         >
-          Update
+          View
         </Button>
       ),
     },
@@ -69,8 +91,8 @@ export default function UserTable({
         <Button
           buttonSize="small"
           variant="tertiary"
-          disabled={deleteUserMutation.isPending}
-          onClick={() => deleteUserMutation.mutate(info.row.original.userId)}
+          disabled={deleteJournalMutation.isPending}
+          onClick={() => deleteJournalMutation.mutate(info.row.original.journalId)}
         >
           Delete
         </Button>
@@ -78,24 +100,21 @@ export default function UserTable({
     },
   ];
   const table = useTable({
-    key: "users-table",
+    key: "journals-table",
     features,
     columns,
-    data: users,
+    data: journals,
   });
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-gray-400 text-lg font-semibold">USERS</h3>
-        <Button buttonSize="small" onClick={addUserClickHandler}>
-          Add User
-        </Button>
+        <h3 className="text-gray-400 text-lg font-semibold">JOURNALS</h3>
       </div>
       {isPending ? (
-        <p>Loading users...</p>
+        <p>Loading journals...</p>
       ) : error ? (
-        <p className="text-red-400">Failed to load users: {error.message}</p>
+        <p className="text-red-400">Failed to load journals: {error.message}</p>
       ) : (
         <table className="border-separate border-spacing-y-1">
           <thead className={tableStyles.header}>

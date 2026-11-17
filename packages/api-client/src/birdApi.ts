@@ -6,6 +6,8 @@ import type {
   JournalSummary,
   Observation,
   ObservationRequest,
+  ObservationGroup,
+  ObservationGroupRequest,
   HabitatRequest,
   Species,
   SpeciesCreate,
@@ -102,5 +104,20 @@ export function createBirdApi(apiClient: ApiClient) {
       apiClient.post<Observation, ObservationRequest>("/observations", data),
     getObservationsByJournalId: (journalId: string) =>
       apiClient.get<Observation[]>(`/observations?journalId=${encodeURIComponent(journalId)}`),
+    getObservationGroups: () =>
+      apiClient.get<ObservationGroup[]>("/observation-groups"),
+    getObservationGroup: (observationGroupId: string) =>
+      apiClient.get<ObservationGroup>(`/observation-groups/${encodeURIComponent(observationGroupId)}`),
+    createObservationGroup: (data: ObservationGroupRequest) =>
+      apiClient.post<ObservationGroup, ObservationGroupRequest>("/observation-groups", data),
+    updateObservationGroup: (data: ObservationGroupRequest, observationGroupId: string) =>
+      apiClient.put<ObservationGroup, ObservationGroupRequest>(
+        `/observation-groups/${encodeURIComponent(observationGroupId)}`,
+        data,
+      ),
+    async deleteObservationGroup(observationGroupId: string): Promise<string> {
+      await apiClient.delete(`/observation-groups/${encodeURIComponent(observationGroupId)}`);
+      return `Successfully deleted observation group with id: ${observationGroupId}`;
+    },
   };
 }

@@ -20,4 +20,9 @@ export {
   getJournal,
   deleteJournal,
   getObservationsByJournalId,
+  getObservationGroups,
+  getObservationGroup,
+  createObservationGroup,
+  updateObservationGroup,
+  deleteObservationGroup,
 } from "./birdApi";

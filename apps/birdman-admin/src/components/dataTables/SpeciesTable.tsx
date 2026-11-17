@@ -1,11 +1,11 @@
 import { tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import type { Species } from "@birdman/shared-types";
+import type { SpeciesSummary } from "@birdman/shared-types";
 import { Button } from "@birdman/shared-ui";
-import { deleteSpecies, getSpecies } from "../services";
-import { useToast } from "./ToastProvider";
-import { tableStyles } from "../styles";
+import { deleteSpecies, getSpecies } from "../../services";
+import { useToast } from "../ToastProvider";
+import { tableStyles } from "../../styles";
 
 interface SpeciesListProps {
   addSpeciesClickHandler: () => void;
@@ -16,7 +16,7 @@ export default function SpeciesTable({
   addSpeciesClickHandler,
   updateSpeciesClickHandler,
 }: SpeciesListProps) {
-  const { data: speciesData, refetch } = useQuery<Species[]>({
+  const { data: speciesData, refetch } = useQuery<SpeciesSummary[]>({
     queryKey: ["species"],
     queryFn: getSpecies,
   });
@@ -51,7 +51,7 @@ export default function SpeciesTable({
   const features = tableFeatures({});
 
   // 4. Define your columns
-  const columns: Array<ColumnDef<typeof features, Species>> = [
+  const columns: Array<ColumnDef<typeof features, SpeciesSummary>> = [
     {
       accessorKey: "localeName",
       header: () => "Name",

@@ -1,4 +1,4 @@
-import SpeciesTable from "../components/SpeciesTable";
+import SpeciesTable from "../components/dataTables/SpeciesTable";
 import { useAdminModal } from "../shell/AdminModalContext";
 import { Card } from "@birdman/shared-ui";
 

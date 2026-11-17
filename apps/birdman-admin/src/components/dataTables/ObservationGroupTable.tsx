@@ -1,86 +1,68 @@
 import { tableFeatures, useTable } from "@tanstack/react-table";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { JournalSummary } from "@birdman/shared-types";
+import type { ObservationGroup } from "@birdman/shared-types";
 import { Button } from "@birdman/shared-ui";
-import { deleteJournal, getJournals } from "../services";
-import { useToast } from "./ToastProvider";
-import { tableStyles } from "../styles";
+import { deleteObservationGroup, getObservationGroups } from "../../services";
+import { useToast } from "../ToastProvider";
+import { tableStyles } from "../../styles";
 
-interface JournalTableProps {
-  viewJournalClickHandler: (journalId: string) => void;
+interface ObservationGroupTableProps {
+  addGroupClickHandler: () => void;
+  updateGroupClickHandler: (groupId: string) => void;
 }
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
-function formatDate(timestamp: string) {
-  return dateFormatter.format(new Date(timestamp));
-}
-
-export default function JournalTable({
-  viewJournalClickHandler,
-}: JournalTableProps) {
-  const { data: journals = [], isPending, error } = useQuery<JournalSummary[]>({
-    queryKey: ["journals"],
-    queryFn: getJournals,
+export default function ObservationGroupTable({
+  addGroupClickHandler,
+  updateGroupClickHandler,
+}: ObservationGroupTableProps) {
+  const { data: groups = [], isPending, error } = useQuery<ObservationGroup[]>({
+    queryKey: ["observationGroups"],
+    queryFn: getObservationGroups,
   });
   const queryClient = useQueryClient();
   const { addToast } = useToast();
-  const deleteJournalMutation = useMutation<string, Error, string>({
-    mutationFn: deleteJournal,
+  const deleteGroupMutation = useMutation<string, Error, string>({
+    mutationFn: deleteObservationGroup,
     onSuccess: () => {
-      addToast("Journal deleted successfully.", {
+      addToast("Observation Group deleted successfully.", {
         type: "success",
         duration: 3500,
       });
-      queryClient.invalidateQueries({ queryKey: ["journals"] });
+      queryClient.invalidateQueries({ queryKey: ["observationGroups"] });
     },
     onError: (deleteError) => {
-      console.error("Error deleting journal:", deleteError);
-      addToast("Failed to delete journal.", {
+      console.error("Error deleting observation group:", deleteError);
+      addToast("Failed to delete observation group.", {
         type: "error",
         duration: 3500,
       });
     },
   });
   const features = tableFeatures({});
-  const columns: Array<ColumnDef<typeof features, JournalSummary>> = [
+  const columns: Array<ColumnDef<typeof features, ObservationGroup>> = [
     {
-      accessorKey: "owner.displayName",
-      header: () => "Owner",
+      accessorKey: "observationGroupId",
+      header: () => "Group ID",
     },
     {
       accessorKey: "name",
       header: () => "Name",
     },
     {
-      accessorKey: "entryCount",
-      header: () => "Entry Count",
+      accessorKey: "parentId",
+      header: () => "Parent Group ID",
     },
     {
-      accessorKey: "createdAt",
-      header: () => "Created At",
-      cell: (info) => formatDate(info.getValue<string>()),
-    },
-    {
-      accessorKey: "updatedAt",
-      header: () => "Updated At",
-      cell: (info) => formatDate(info.getValue<string>()),
-    },
-    {
-      id: "view",
-      header: () => "View",
+      id: "update",
+      header: () => "Update",
       cell: (info) => (
         <Button
           buttonSize="small"
           variant="tertiary"
-          onClick={() => viewJournalClickHandler(info.row.original.journalId)}
+          onClick={() => updateGroupClickHandler(info.row.original.observationGroupId)}
         >
-          View
+          Update
         </Button>
       ),
     },
@@ -91,8 +73,8 @@ export default function JournalTable({
         <Button
           buttonSize="small"
           variant="tertiary"
-          disabled={deleteJournalMutation.isPending}
-          onClick={() => deleteJournalMutation.mutate(info.row.original.journalId)}
+          disabled={deleteGroupMutation.isPending}
+          onClick={() => deleteGroupMutation.mutate(info.row.original.observationGroupId)}
         >
           Delete
         </Button>
@@ -100,21 +82,24 @@ export default function JournalTable({
     },
   ];
   const table = useTable({
-    key: "journals-table",
+    key: "observation-groups-table",
     features,
     columns,
-    data: journals,
+    data: groups,
   });
 
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="text-gray-400 text-lg font-semibold">JOURNALS</h3>
+        <h3 className="text-gray-400 text-lg font-semibold">OBSERVATION GROUPS</h3>
+        <Button buttonSize="small" onClick={addGroupClickHandler}>
+          Add Group
+        </Button>
       </div>
       {isPending ? (
-        <p>Loading journals...</p>
+        <p>Loading observation groups...</p>
       ) : error ? (
-        <p className="text-red-400">Failed to load journals: {error.message}</p>
+        <p className="text-red-400">Failed to load observation groups: {error.message}</p>
       ) : (
         <table className="border-separate border-spacing-y-1">
           <thead className={tableStyles.header}>

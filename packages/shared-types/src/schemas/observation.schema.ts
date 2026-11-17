@@ -8,7 +8,7 @@ const baseObservationProperties = {
   "notes": { type: "string" },
 } as const;
 
-const requiredObservationProperties = ["journalId", "bird", "location", "observedAt", "quantity"] as const;
+const requiredObservationProperties = ["journalId", "location", "observedAt"] as const;
 
 export const ObservationSchema = {
   $id: schemaId("observation"),
@@ -20,6 +20,10 @@ export const ObservationSchema = {
     "observationId": { type: "string" },
   },
   "required": ["observationId", ...requiredObservationProperties],
+    "anyOf": [
+    { "required": ["bird"] },
+    { "required": ["notes"] }
+  ],
   "additionalProperties": false
 } as const;
 
@@ -32,5 +36,9 @@ export const ObservationRequestSchema = {
     ...baseObservationProperties,
   },
   "required": requiredObservationProperties,
+    "anyOf": [
+    { "required": ["bird"] },
+    { "required": ["notes"] }
+  ],
   "additionalProperties": false
 } as const;

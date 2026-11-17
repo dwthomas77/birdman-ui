@@ -1,4 +1,4 @@
-import UserTable from "../components/UserTable";
+import UserTable from "../components/dataTables/UserTable";
 import { useAdminModal } from "../shell/AdminModalContext";
 import { Card } from "@birdman/shared-ui";
 

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HabitatsRouteImport } from './routes/habitats'
 import { Route as JournalsRouteImport } from './routes/journals'
+import { Route as ObservationGroupsRouteImport } from './routes/observationGroups'
 import { Route as SpeciesRouteImport } from './routes/species'
 import { Route as UsersRouteImport } from './routes/users'
 
@@ -30,6 +31,11 @@ const JournalsRoute = JournalsRouteImport.update({
   path: '/journals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ObservationGroupsRoute = ObservationGroupsRouteImport.update({
+  id: '/observationGroups',
+  path: '/observationGroups',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpeciesRoute = SpeciesRouteImport.update({
   id: '/species',
   path: '/species',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/habitats': typeof HabitatsRoute
   '/journals': typeof JournalsRoute
+  '/observationGroups': typeof ObservationGroupsRoute
   '/species': typeof SpeciesRoute
   '/users': typeof UsersRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/habitats': typeof HabitatsRoute
   '/journals': typeof JournalsRoute
+  '/observationGroups': typeof ObservationGroupsRoute
   '/species': typeof SpeciesRoute
   '/users': typeof UsersRoute
 }
@@ -60,21 +68,42 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/habitats': typeof HabitatsRoute
   '/journals': typeof JournalsRoute
+  '/observationGroups': typeof ObservationGroupsRoute
   '/species': typeof SpeciesRoute
   '/users': typeof UsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/habitats' | '/journals' | '/species' | '/users'
+  fullPaths:
+    | '/'
+    | '/habitats'
+    | '/journals'
+    | '/observationGroups'
+    | '/species'
+    | '/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/habitats' | '/journals' | '/species' | '/users'
-  id: '__root__' | '/' | '/habitats' | '/journals' | '/species' | '/users'
+  to:
+    | '/'
+    | '/habitats'
+    | '/journals'
+    | '/observationGroups'
+    | '/species'
+    | '/users'
+  id:
+    | '__root__'
+    | '/'
+    | '/habitats'
+    | '/journals'
+    | '/observationGroups'
+    | '/species'
+    | '/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HabitatsRoute: typeof HabitatsRoute
   JournalsRoute: typeof JournalsRoute
+  ObservationGroupsRoute: typeof ObservationGroupsRoute
   SpeciesRoute: typeof SpeciesRoute
   UsersRoute: typeof UsersRoute
 }
@@ -102,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JournalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/observationGroups': {
+      id: '/observationGroups'
+      path: '/observationGroups'
+      fullPath: '/observationGroups'
+      preLoaderRoute: typeof ObservationGroupsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/species': {
       id: '/species'
       path: '/species'
@@ -123,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HabitatsRoute: HabitatsRoute,
   JournalsRoute: JournalsRoute,
+  ObservationGroupsRoute: ObservationGroupsRoute,
   SpeciesRoute: SpeciesRoute,
   UsersRoute: UsersRoute,
 }

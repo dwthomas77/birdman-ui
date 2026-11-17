@@ -1,4 +1,4 @@
-import HabitatTable from "../components/HabitatsTable";
+import HabitatTable from "../components/dataTables/HabitatsTable";
 import { useAdminModal } from "../shell/AdminModalContext";
 import { Card } from "@birdman/shared-ui";
 

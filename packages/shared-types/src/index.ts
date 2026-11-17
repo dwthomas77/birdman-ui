@@ -1,14 +1,14 @@
 import type { FromSchema } from "json-schema-to-ts";
+import type { WeekDay, DayId, Month, MonthId, CalendarDate } from "./date.types";
+
 import { UserRequestSchema, UserSchema } from "./schemas/user.schema";
 import { JournalSchema, JournalRequestSchema, JournalSummarySchema } from "./schemas/journal.schema";
 import { ObservationSchema, ObservationRequestSchema } from "./schemas/observation.schema";
 import { LocationSchema } from "./schemas/location.schema";
 import { BirdSchema } from "./schemas/bird.schema";
 import { HabitatSchema, HabitatRequestSchema } from "./schemas/habitat.schema";
-import type { SpeciesRequestSchema, SpeciesReadSchema, SpeciesSummarySchema } from "./schemas/species.schema";
-import type { WeekDay, DayId, Month, MonthId, CalendarDate } from "./date.types";
-
-
+import { SpeciesRequestSchema, SpeciesReadSchema, SpeciesSummarySchema } from "./schemas/species.schema";
+import { ObservationGroupSchema, ObservationGroupRequestSchema } from "./schemas/observationGroup.schema";
 
 export { SpeciesRequestSchema, SpeciesReadSchema } from "./schemas/species.schema";
 export { UserRequestSchema, UserSchema } from "./schemas/user.schema";
@@ -33,6 +33,8 @@ export type User = FromSchema<typeof UserSchema>;
 export type UserRequest = FromSchema<typeof UserRequestSchema>;
 export type Location = FromSchema<typeof LocationSchema>;
 export type Bird = FromSchema<typeof BirdSchema>;
+export type ObservationGroup = FromSchema<typeof ObservationGroupSchema>;
+export type ObservationGroupRequest = FromSchema<typeof ObservationGroupRequestSchema>;
 
 export interface ProblemDetailsResponse {
   type: string;

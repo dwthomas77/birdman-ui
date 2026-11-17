@@ -1,4 +1,4 @@
-import JournalTable from "../components/JournalTable";
+import JournalTable from "../components/dataTables/JournalTable";
 import { useAdminModal } from "../shell/AdminModalContext";
 import { Card } from "@birdman/shared-ui";
 
