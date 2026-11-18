@@ -3,14 +3,14 @@ import AddHabitatForm from "./AddHabitatForm";
 import AddUpdateHabitatForm from "./AddUpdateHabitatForm";
 import CreateAddSpeciesForm from "./CreateUpdateSpeciesForm";
 import UsersCreateUpdateForm from "./UsersCreateUpdateForm";
-import ObservationGroupsCreateUpdateForm from "./ObservationGroupsCreateUpdateForm";
+import AddUpdateObservationGroup from "./AddUpdateObservationGroup";
 import JournalViewModal from "./JournalViewModal";
 import type { ModalOptions } from "../types";
 import type { AddHabitatFormProps } from "./AddHabitatForm";
 import type { AddUpdateHabitatFormProps } from "./AddUpdateHabitatForm";
 import type { AddSpeciesFormProps } from "./CreateUpdateSpeciesForm";
 import type { UsersCreateUpdateFormProps } from "./UsersCreateUpdateForm";
-import type { ObservationGroupsCreateUpdateFormProps } from "./ObservationGroupsCreateUpdateForm";
+import type { AddUpdateObservationGroupFormProps } from "./AddUpdateObservationGroup";
 import type { JournalViewModalProps } from "./JournalViewModal";
 import { modalBaseStyles } from "../styles/modalStyles";
 import { combineClassNames } from "../util";
@@ -20,7 +20,7 @@ type ModalFormProps =
   | AddUpdateHabitatFormProps
   | AddSpeciesFormProps
   | UsersCreateUpdateFormProps
-  | ObservationGroupsCreateUpdateFormProps
+  | AddUpdateObservationGroupFormProps
   | JournalViewModalProps
   | undefined;
 
@@ -78,7 +78,7 @@ function ModalComponent({ content, ...modalProps }: ModalOptions) {
         return <UsersCreateUpdateForm {...modalProps} />;
       case "addObservationGroup":
       case "updateObservationGroup":
-        return <ObservationGroupsCreateUpdateForm {...modalProps} />;
+        return <AddUpdateObservationGroup {...modalProps} />;
       case "viewJournal":
         return <JournalViewModal {...modalProps} />;
       default:

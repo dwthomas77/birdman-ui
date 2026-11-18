@@ -30,6 +30,59 @@ test("management routes render when opened directly", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "HABITATS" })).toBeVisible();
 });
 
+test("observation group tabs preserve form values and allow saving", async ({ page }) => {
+  await mockBirdApi(page);
+  let created: Record<string, unknown> | undefined;
+  await page.route("http://localhost:3000/observation-groups", async (route) => {
+    if (route.request().method() === "POST") {
+      created = route.request().postDataJSON();
+      return route.fulfill({
+        json: { ...created, observationGroupId: "group-1" },
+      });
+    }
+    return route.fulfill({ json: [] });
+  });
+  await page.goto("/observationGroups");
+  await page.getByRole("button", { name: "Add Group" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Add Observation Group" });
+  const name = dialog.getByLabel("Name:");
+  await name.fill("Raptors");
+  await dialog.getByRole("button", { name: "Relationships" }).click();
+  await expect(name).toBeHidden();
+  await dialog.getByRole("button", { name: "Group Info" }).click();
+  await expect(name).toHaveValue("Raptors");
+  await dialog.getByRole("button", { name: "Save" }).click();
+  await expect(dialog).toBeHidden();
+  expect(created).toEqual({ name: "Raptors", parentId: "" });
+});
+
+test("observation group update still loads and saves the selected group", async ({ page }) => {
+  await mockBirdApi(page);
+  let updated: Record<string, unknown> | undefined;
+  const group = { observationGroupId: "group-1", name: "Raptors", parentId: "" };
+  await page.route("http://localhost:3000/observation-groups**", async (route) => {
+    const request = route.request();
+    if (request.method() === "PUT") {
+      updated = request.postDataJSON();
+      return route.fulfill({ json: { ...group, ...updated } });
+    }
+    return route.fulfill({
+      json: new URL(request.url()).pathname.endsWith("/group-1") ? group : [group],
+    });
+  });
+  await page.goto("/observationGroups");
+  await page.getByRole("row").filter({ hasText: "Raptors" })
+    .getByRole("button", { name: "Update" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "Update Observation Group" });
+  await expect(dialog.getByLabel("Name:")).toHaveValue("Raptors");
+  await dialog.getByLabel("Name:").fill("Birds of Prey");
+  await dialog.getByRole("button", { name: "Save" }).click();
+  await expect(dialog).toBeHidden();
+  expect(updated).toEqual({ name: "Birds of Prey", parentId: "" });
+});
+
 test("habitats can be created, updated, and deleted", async ({ page }) => {
   const { state, requests } = await mockBirdApi(page);
   await page.goto("/");

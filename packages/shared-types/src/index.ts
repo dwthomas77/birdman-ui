@@ -77,14 +77,11 @@ export class ApiError extends Error {
 export type TaxonRank = "family" | "genus" | "species";
 export interface Taxon {
   taxonId: string;
-  rank: TaxonRank;
+  rank: string;
   name: string;
 }
-export interface TaxonFamily extends Taxon {
-  rank: "family";
-}
+
 export interface TaxonGenus extends Taxon {
-  rank: "genus";
   familyId: string;
 }
 export interface TaxonSpecies extends Taxon {
@@ -94,9 +91,8 @@ export interface TaxonSpecies extends Taxon {
   familyId: string;
 }
 export interface TaxonData {
-  families: TaxonFamily[];
+  families: Taxon[];
   genera: TaxonGenus[];
-  species: TaxonSpecies[];
 }
 
 

@@ -1,8 +1,10 @@
+import appStyles from './appStyles';
+
 const tableStyles = {
   header: 'bg-slate-600',
   headerCell: `text-left font-bold p-2`,
   tbody: '[&_td]:py-1',
-  row: 'bg-slate-900 hover:bg-slate-950',
+  row: `${appStyles.primaryContent}`,
   rowLevelOne: 'bg-slate-900 hover:bg-slate-950',
   rowLevelTwo: 'bg-slate-800 hover:bg-slate-950',
   rowLevelThree: 'bg-slate-700 hover:bg-slate-950',

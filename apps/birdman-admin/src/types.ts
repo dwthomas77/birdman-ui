@@ -3,7 +3,7 @@ import type { AddUpdateHabitatFormProps } from "./components/AddUpdateHabitatFor
 import type { AddSpeciesFormProps } from "./components/CreateUpdateSpeciesForm";
 import type { JournalViewModalProps } from "./components/JournalViewModal";
 import type { UsersCreateUpdateFormProps } from "./components/UsersCreateUpdateForm";
-import type { ObservationGroupsCreateUpdateFormProps } from "./components/ObservationGroupsCreateUpdateForm";
+import type { AddUpdateObservationGroupFormProps } from "./components/AddUpdateObservationGroup";
 
 export type ModalContentType =
     | "addHabitat"
@@ -21,7 +21,7 @@ export type ModalFormOptions =
     | AddUpdateHabitatFormProps
     | AddSpeciesFormProps
     | UsersCreateUpdateFormProps
-    | ObservationGroupsCreateUpdateFormProps
+    | AddUpdateObservationGroupFormProps
     | JournalViewModalProps;
 
 export type ModalOptions = {
