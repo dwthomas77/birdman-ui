@@ -2,16 +2,51 @@ import { useState } from "react";
 import { tabStyles } from "../styles";
 import { taxonData } from "@birdman/shared-data";
 import TaxonCard from "./TaxonCard";
-import type { TaxonData, Taxon, TaxonGenus } from "@birdman/shared-types";
+import type {
+  ObservationGroupFamily,
+  ObservationGroupGenus,
+  ObservationGroupSpecies,
+  Taxon,
+  TaxonGenus,
+} from "@birdman/shared-types";
 
-const ManageObvGroupRelationships = () => {
+interface ManageObvGroupRelationshipsProps {
+  relatedFamilies?: ObservationGroupFamily[];
+  relatedGenera?: ObservationGroupGenus[];
+  relatedSpecies?: ObservationGroupSpecies[];
+  taxonPressHandler: (taxonId: string, rank: "family" | "genus" | "species") => void;
+}
+
+const ManageObvGroupRelationships = (
+  props: ManageObvGroupRelationshipsProps,
+) => {
   const [activeTab, setActiveTab] = useState<"family" | "genus" | "species">(
     "family",
   );
 
-  const taxonomyData: TaxonData = taxonData;
-  const { families, genera }: { families: Taxon[]; genera: TaxonGenus[] } =
-    taxonomyData;
+  const taxonomyData: {
+    families: Taxon[];
+    genera: TaxonGenus[];
+  } = taxonData as {
+    families: Taxon[];
+    genera: TaxonGenus[];
+  };
+
+  const { families, genera } = taxonomyData;
+  const { relatedFamilies, relatedGenera } = props;
+
+  const isTaxonSelected = (taxonId: string, rank: "family" | "genus" | "species") => {
+    if (rank === "family") {
+      return relatedFamilies?.some((family) => family.familyId === taxonId) ?? false;
+    }
+    if (rank === "genus") {
+      return relatedGenera?.some((genus) => genus.genusId === taxonId) ?? false;
+    }
+    // if (rank === "species") {
+    //   return relatedSpecies?.some((species) => species.speciesId === taxonId) ?? false;
+    // }
+    return false;
+  };
 
   return (
     <div>
@@ -74,19 +109,19 @@ const ManageObvGroupRelationships = () => {
       <div id="families-tab" hidden={activeTab !== "family"}>
         <div className="flex flex-wrap gap-2">
           {families.map((family) => (
-            <TaxonCard key={family.taxonId} taxon={family} />
+            <TaxonCard key={family.taxonId} taxon={{ ...family, rank: "family" }} isSelected={isTaxonSelected(family.taxonId, "family")} taxonPressHandler={props.taxonPressHandler} />
           ))}
         </div>
       </div>
       <div id="genera-tab" hidden={activeTab !== "genus"}>
         <div className="flex flex-wrap gap-2">
-          {genera.map((genus) => (
-            <TaxonCard key={genus.taxonId} taxon={genus} />
+          {genera?.map((genus) => (
+            <TaxonCard key={genus.taxonId} taxon={{ ...genus, rank: "genus" }} isSelected={isTaxonSelected(genus.taxonId, "genus")} taxonPressHandler={props.taxonPressHandler} />
           ))}
         </div>
       </div>
       <div id="species-tab" hidden={activeTab !== "species"}>
-        {/* Species data would be mapped here similar to families and genera */}
+
       </div>
     </div>
   );

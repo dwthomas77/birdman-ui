@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import type {
   ObservationGroup,
   ObservationGroupRequest,
+  ObservationGroupFamily,
+  ObservationGroupGenus,
 } from "@birdman/shared-types";
 import {
   createObservationGroup,
@@ -38,6 +40,12 @@ export default function AddUpdateObservationGroup({
   const [activeTab, setActiveTab] = useState<
     "observationGroupInfo" | "observationGroupRelationships"
   >("observationGroupInfo");
+  const [relatedFamilies, setRelatedFamilies] = useState<
+    ObservationGroupFamily[]
+  >([]);
+  const [relatedGenera, setRelatedGenera] = useState<ObservationGroupGenus[]>(
+    [],
+  );
   const { addToast } = useToast();
   const queryClient = useQueryClient();
   const createMutation = useMutation<
@@ -55,7 +63,7 @@ export default function AddUpdateObservationGroup({
     mutationFn: ({ data, observationGroupId: id }) =>
       updateObservationGroup(data, id),
   });
-  const observationGroupQuery = useQuery<ObservationGroup>({
+  const { data: observationGroupData, isLoading: observationGroupIsLoading, error: observationGroupError } = useQuery<ObservationGroup>({
     queryKey: ["observationGroup", observationGroupId],
     queryFn: () => getObservationGroup(observationGroupId ?? ""),
     enabled: mode === "update" && !!observationGroupId,
@@ -73,22 +81,22 @@ export default function AddUpdateObservationGroup({
       </div>
     );
   }
-  if (observationGroupQuery.isLoading) {
+  if (observationGroupIsLoading) {
     return <LoadingSpinner />;
   }
-  if (observationGroupQuery.error) {
+  if (observationGroupError) {
     return (
       <div className={formErrorMessage}>
-        Failed to load observation group: {observationGroupQuery.error.message}
+        Failed to load observation group: {observationGroupError.message}
       </div>
     );
   }
 
   const defaultFormValues: ObservationGroupRequest =
-    mode === "update" && observationGroupQuery.data
+    mode === "update" && observationGroupData
       ? {
-          name: observationGroupQuery.data.name,
-          parentId: observationGroupQuery.data.parentId || "",
+          name: observationGroupData.name,
+          parentId: observationGroupData.parentId || "",
         }
       : initialFormValues;
 
@@ -133,10 +141,44 @@ export default function AddUpdateObservationGroup({
     }
   };
 
+  const handlePressTaxon = (taxonId: string, rank: "family" | "genus" | "species") => {
+    // Implement the logic to handle pressing a taxon card
+    if (rank === "family") {
+      const isSelected = relatedFamilies?.some((family) => family.familyId === taxonId) ?? false;
+      if (isSelected) {
+        // Deselect the family
+        setRelatedFamilies(relatedFamilies.filter((family) => family.familyId !== taxonId));
+      } else {
+        const observationGroupFamilyData: ObservationGroupFamily = { familyId: taxonId };
+        // Select the family
+        setRelatedFamilies([...relatedFamilies, observationGroupFamilyData]);
+      }
+    }
+    if (rank === "genus") {
+      const isSelected = relatedGenera?.some((genus) => genus.genusId === taxonId) ?? false;
+      if (isSelected) {
+        // Deselect the genus
+        setRelatedGenera(relatedGenera.filter((genus) => genus.genusId !== taxonId));
+      } else {
+        // Select the genus
+        const observationGroupGenusData: ObservationGroupGenus = { genusId: taxonId };
+        setRelatedGenera([...relatedGenera, observationGroupGenusData]);
+      }
+    }
+    // Implement the logic to handle pressing a taxon card based on isSelected
+  };
+
   const parentGroups =
     observationGroupsQuery.data?.filter(
       (g) => g.observationGroupId !== observationGroupId,
     ) || [];
+
+  //const families = [];
+  //const genera = [];
+  //const species = [];
+
+  console.log(relatedFamilies)
+  console.log(relatedGenera)
 
   return (
     <div className="flex flex-col gap-1 min-w-[700px] overflow-y-auto mb-4">
@@ -237,7 +279,12 @@ export default function AddUpdateObservationGroup({
                 id="relationships"
                 hidden={activeTab !== "observationGroupRelationships"}
               >
-                <ManageObvGroupRelationships />
+                <ManageObvGroupRelationships
+                  relatedFamilies={relatedFamilies}
+                  relatedGenera={relatedGenera}
+                  relatedSpecies={[]}
+                  taxonPressHandler={handlePressTaxon}
+                />
               </div>
               <div className="mt-2 flex justify-end">
                 <Button type="submit" disabled={isSubmitting}>

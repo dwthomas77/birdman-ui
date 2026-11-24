@@ -8,7 +8,10 @@ import { LocationSchema } from "./schemas/location.schema";
 import { BirdSchema } from "./schemas/bird.schema";
 import { HabitatSchema, HabitatRequestSchema } from "./schemas/habitat.schema";
 import { SpeciesRequestSchema, SpeciesReadSchema, SpeciesSummarySchema } from "./schemas/species.schema";
-import { ObservationGroupSchema, ObservationGroupRequestSchema } from "./schemas/observationGroup.schema";
+import { ObservationGroupSchema, ObservationGroupRequestSchema, ObservationGroupSummarySchema } from "./schemas/observationGroup.schema";
+import { ObservationGroupFamilySchema, ObservationGroupFamilyRequestSchema } from "./schemas/observationGroupFamily.schema";
+import { ObservationGroupGenusSchema, ObservationGroupGenusRequestSchema } from "./schemas/observationGroupGenus.schema";
+import { ObservationGroupSpeciesSchema, ObservationGroupSpeciesRequestSchema } from "./schemas/observationGroupSpecies.schema";
 
 export { SpeciesRequestSchema, SpeciesReadSchema } from "./schemas/species.schema";
 export { UserRequestSchema, UserSchema } from "./schemas/user.schema";
@@ -35,6 +38,14 @@ export type Location = FromSchema<typeof LocationSchema>;
 export type Bird = FromSchema<typeof BirdSchema>;
 export type ObservationGroup = FromSchema<typeof ObservationGroupSchema>;
 export type ObservationGroupRequest = FromSchema<typeof ObservationGroupRequestSchema>;
+export type ObservationGroupFamily = FromSchema<typeof ObservationGroupFamilySchema>;
+export type ObservationGroupFamilyRequest = FromSchema<typeof ObservationGroupFamilyRequestSchema>;
+export type ObservationGroupGenus = FromSchema<typeof ObservationGroupGenusSchema>;
+export type ObservationGroupGenusRequest = FromSchema<typeof ObservationGroupGenusRequestSchema>;
+export type ObservationGroupSpecies = FromSchema<typeof ObservationGroupSpeciesSchema>;
+export type ObservationGroupSpeciesRequest = FromSchema<typeof ObservationGroupSpeciesRequestSchema>;
+// Removed duplicate exports for ObservationGroupFamily, ObservationGroupGenus, and ObservationGroupSpecies
+export type ObservationGroupSummary = FromSchema<typeof ObservationGroupSummarySchema>;
 
 export interface ProblemDetailsResponse {
   type: string;

@@ -1,3 +1,3 @@
-import TaxonCard from "./TaxonCard";
+import Icon from "./icon";
 
-export { TaxonCard };
+export { Icon };

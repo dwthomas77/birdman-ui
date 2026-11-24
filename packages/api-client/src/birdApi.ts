@@ -7,6 +7,7 @@ import type {
   Observation,
   ObservationRequest,
   ObservationGroup,
+  ObservationGroupSummary,
   ObservationGroupRequest,
   HabitatRequest,
   Species,
@@ -105,7 +106,7 @@ export function createBirdApi(apiClient: ApiClient) {
     getObservationsByJournalId: (journalId: string) =>
       apiClient.get<Observation[]>(`/observations?journalId=${encodeURIComponent(journalId)}`),
     getObservationGroups: () =>
-      apiClient.get<ObservationGroup[]>("/observation-groups"),
+      apiClient.get<ObservationGroupSummary[]>("/observation-groups/summary"),
     getObservationGroup: (observationGroupId: string) =>
       apiClient.get<ObservationGroup>(`/observation-groups/${encodeURIComponent(observationGroupId)}`),
     createObservationGroup: (data: ObservationGroupRequest) =>

@@ -37,4 +37,66 @@ const ObservationGroupRequestSchema = {
   required: [...requiredFields],
 } as const;
 
-export { ObservationGroupSchema, ObservationGroupRequestSchema };
+const ObservationGroupSummarySchema = {
+  $id: schemaId("observationGroup/summary"),
+  title: "Bird Observation Group",
+  description: "An abstract representation of a group of related birds",
+  type: "object",
+  properties: {
+    observationGroupId: {
+      type: "string",
+    },
+    ...baseObservationGroupProperties,
+families: {
+  type: "array",
+  items: {
+    type: "object",
+    properties: {
+      familyId: {
+        type: "string",
+      },
+      excluded: {
+        type: "boolean",
+      },
+    },
+    required: ["familyId"],
+    additionalProperties: false,
+  },
+},
+    genera: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          genusId: {
+            type: "string",
+          },
+          excluded: {
+            type: "boolean",
+          },
+        },
+        required: ["genusId"],
+        additionalProperties: false,
+      },
+    },
+    species: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          speciesId: {
+            type: "string",
+          },
+          excluded: {
+            type: "boolean",
+          },
+        },
+        required: ["speciesId"],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: [...requiredFields, "observationGroupId", "families", "genera", "species"],
+} as const;
+
+export { ObservationGroupSchema, ObservationGroupRequestSchema, ObservationGroupSummarySchema };
